@@ -40,4 +40,10 @@ class ClockStateTest {
     fun `check bottom minutes lamps are initially OFF`() {
         assertThat(clockState.bottomMinuteLamps).isEqualTo(List(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.OFF })
     }
+
+    @Test
+    fun `check normal time is initially empty`() {
+        clockState = ClockState()
+        assertThat(clockState.normalTime).isEqualTo("")
+    }
 }
