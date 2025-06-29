@@ -1,5 +1,6 @@
 package com.anonymous.berlinclock.domain.usecase
 
+import com.anonymous.berlinclock.util.LampColour
 import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_59
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertThrows
@@ -32,7 +33,7 @@ class GetBerlinClockDataTest {
         getBerlinClockData = GetBerlinClockData()
         (1..59 step 2).forEach {
             val result = getBerlinClockData.getSeconds(it)
-            assertThat(result).isEqualTo("OFF")
+            assertThat(result).isEqualTo(LampColour.OFF)
         }
     }
 
@@ -41,7 +42,7 @@ class GetBerlinClockDataTest {
         getBerlinClockData = GetBerlinClockData()
         (0..58 step 2).forEach {
             val result = getBerlinClockData.getSeconds(it)
-            assertThat(result).isEqualTo("ON")
+            assertThat(result).isEqualTo(LampColour.YELLOW)
         }
     }
 }
