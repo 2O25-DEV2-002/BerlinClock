@@ -21,8 +21,22 @@ import com.anonymous.berlinclock.util.getReminder
 import com.anonymous.berlinclock.util.isEven
 import com.anonymous.berlinclock.util.isMultipleOfThree
 import com.anonymous.berlinclock.util.splitIntoIntParts
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 
 class GetBerlinClockData {
+
+    operator fun invoke(): Flow<BerlinClock> = flow {
+        while (true) {
+            val currentDate = DateTime.now()
+            val formattedTime = DateTimeFormat.forPattern("HH:mm:ss").print(currentDate)
+            emit(invoke(formattedTime))
+            delay(1000)
+        }
+    }
 
     operator fun invoke(time: String): BerlinClock {
         val (hour, min, sec) = time.splitIntoIntParts(":")

@@ -1,5 +1,6 @@
 package com.anonymous.berlinclock.domain.usecase
 
+import app.cash.turbine.test
 import com.anonymous.berlinclock.domain.model.BerlinClock
 import com.anonymous.berlinclock.util.BOTTOM_MINUTE_LAMP_COUNT
 import com.anonymous.berlinclock.util.HOUR_LAMP_COUNT
@@ -11,6 +12,12 @@ import com.anonymous.berlinclock.util.TIME_MAX_VALUE
 import com.anonymous.berlinclock.util.TIME_MIN_VALUE
 import com.anonymous.berlinclock.util.TOP_MINUTE_LAMP_COUNT
 import com.google.common.truth.Truth.assertThat
+import io.mockk.every
+import io.mockk.mockkStatic
+import kotlinx.coroutines.test.runTest
+import org.joda.time.DateTime
+import org.joda.time.DateTimeUtils
+import org.joda.time.format.DateTimeFormat
 import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Test
@@ -410,5 +417,40 @@ class GetBerlinClockDataTest {
         )
         val berlinClock = getBerlinClockData(time = timeString)
         assertThat(berlinClock).isEqualTo(expectedResult)
+    }
+
+    @Test
+    fun `returns the berlin time corresponding to the system time automatically`() = runTest {
+        val timeString = "01:20:29"
+        val millis = 1706212229312
+        val topHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
+        val bottomHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
+        bottomHourLamps[0] = LampColour.RED
+        val topMinuteLamps = MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF }
+        topMinuteLamps[0] = LampColour.YELLOW
+        topMinuteLamps[1] = LampColour.YELLOW
+        topMinuteLamps[2] = LampColour.RED
+        topMinuteLamps[3] = LampColour.YELLOW
+        val bottomMinuteLamps = MutableList(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.OFF }
+        bottomMinuteLamps[0] = LampColour.OFF
+
+        val expectedResult = BerlinClock(
+            secondLamp = LampColour.OFF,
+            topHourLamps = topHourLamps,
+            bottomHourLamps = bottomHourLamps,
+            topMinuteLamps = topMinuteLamps,
+            bottomMinuteLamps = bottomMinuteLamps,
+            normalTime = timeString
+        )
+        DateTimeUtils.setCurrentMillisFixed(millis)
+        mockkStatic(DateTimeFormat::class)
+        every { DateTimeFormat.forPattern(any()).print(DateTime()) } returns timeString
+
+        getBerlinClockData().test<BerlinClock> {
+            repeat(5) {
+                assertThat(awaitItem()).isEqualTo(expectedResult)
+            }
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 }
