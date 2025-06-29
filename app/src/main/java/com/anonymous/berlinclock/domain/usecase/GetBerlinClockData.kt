@@ -16,14 +16,12 @@ import com.anonymous.berlinclock.util.isEven
 class GetBerlinClockData {
 
     fun getSeconds(seconds: Int): SecondLamp {
-        require(seconds in TIME_MIN_VALUE..TIME_MAX_VALUE) { MESSAGE_INPUT_BETWEEN_0_AND_59 }
+        checkValidInputBounds(seconds)
         return if (seconds.isEven()) LampColour.YELLOW else LampColour.OFF
     }
 
     fun getTopHours(hour: Int): TopHourLamps {
-        require(hour in TIME_MIN_VALUE..HOUR_MAX_VALUE) {
-            MESSAGE_INPUT_BETWEEN_0_AND_23
-        }
+        checkValidInputBounds(hour, HOUR_MAX_VALUE, MESSAGE_INPUT_BETWEEN_0_AND_23)
         val litLampsCount = hour / TOP_HOUR_LAMP_VALUE
         return MutableList(HOUR_LAMP_COUNT) { index ->
             if (index < litLampsCount) LampColour.RED else LampColour.OFF
@@ -31,9 +29,7 @@ class GetBerlinClockData {
     }
 
     fun getBottomHour(hour: Int): BottomHourLamps {
-        require(hour in TIME_MIN_VALUE..HOUR_MAX_VALUE) {
-            MESSAGE_INPUT_BETWEEN_0_AND_23
-        }
+        checkValidInputBounds(hour, HOUR_MAX_VALUE, MESSAGE_INPUT_BETWEEN_0_AND_23)
         val litLampsCount = hour % TOP_HOUR_LAMP_VALUE
         return MutableList(HOUR_LAMP_COUNT) { index ->
             if (index < litLampsCount) LampColour.RED else LampColour.OFF
@@ -41,8 +37,16 @@ class GetBerlinClockData {
     }
 
     fun getTopMinute(minutes: Int) {
-        require(minutes in TIME_MIN_VALUE..TIME_MAX_VALUE) {
-            MESSAGE_INPUT_BETWEEN_0_AND_59
+        checkValidInputBounds(minutes)
+    }
+
+    fun checkValidInputBounds(
+        inputTime: Int,
+        maxValue: Int = TIME_MAX_VALUE,
+        upperBoundMessage: String = MESSAGE_INPUT_BETWEEN_0_AND_59
+    ) {
+        require(inputTime in TIME_MIN_VALUE..maxValue) {
+            upperBoundMessage
         }
     }
 }
