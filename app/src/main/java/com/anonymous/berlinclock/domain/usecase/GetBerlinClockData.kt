@@ -11,6 +11,8 @@ import com.anonymous.berlinclock.util.TIME_MAX_VALUE
 import com.anonymous.berlinclock.util.TIME_MIN_VALUE
 import com.anonymous.berlinclock.util.TOP_HOUR_LAMP_VALUE
 import com.anonymous.berlinclock.util.TopHourLamps
+import com.anonymous.berlinclock.util.getQuotient
+import com.anonymous.berlinclock.util.getReminder
 import com.anonymous.berlinclock.util.isEven
 
 class GetBerlinClockData {
@@ -22,7 +24,7 @@ class GetBerlinClockData {
 
     fun getTopHours(hour: Int): TopHourLamps {
         checkValidInputBounds(hour, HOUR_MAX_VALUE, MESSAGE_INPUT_BETWEEN_0_AND_23)
-        val litLampsCount = hour / TOP_HOUR_LAMP_VALUE
+        val litLampsCount = hour.getQuotient(TOP_HOUR_LAMP_VALUE)
         return MutableList(HOUR_LAMP_COUNT) { index ->
             if (index < litLampsCount) LampColour.RED else LampColour.OFF
         }
@@ -30,7 +32,7 @@ class GetBerlinClockData {
 
     fun getBottomHour(hour: Int): BottomHourLamps {
         checkValidInputBounds(hour, HOUR_MAX_VALUE, MESSAGE_INPUT_BETWEEN_0_AND_23)
-        val litLampsCount = hour % TOP_HOUR_LAMP_VALUE
+        val litLampsCount = hour.getReminder(TOP_HOUR_LAMP_VALUE)
         return MutableList(HOUR_LAMP_COUNT) { index ->
             if (index < litLampsCount) LampColour.RED else LampColour.OFF
         }
