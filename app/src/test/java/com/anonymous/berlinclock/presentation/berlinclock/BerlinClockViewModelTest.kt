@@ -52,4 +52,34 @@ class BerlinClockViewModelTest {
             assertThat(it.normalTime).isEqualTo(normalTime)
         }
     }
+
+    @Test
+    fun `check berlin clock lamps are updating for the manual clock scenario`() = runTest {
+        berlinClockViewModel = BerlinClockViewModel(getBerlinClockDataUseCase)
+        val secondLamp = LampColour.YELLOW
+        val topHourLamps = List(HOUR_LAMP_COUNT) { LampColour.RED }
+        val bottomHourLamps = List(HOUR_LAMP_COUNT) { LampColour.RED }
+        val topMinuteLamps = List(TOP_MINUTE_LAMP_COUNT) { LampColour.YELLOW }
+        val bottomMinuteLamps = List(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.YELLOW }
+        val normalTime = "11:12:08"
+        val expectedClock = BerlinClock(
+            secondLamp = secondLamp,
+            topHourLamps = topHourLamps,
+            bottomHourLamps = bottomHourLamps,
+            topMinuteLamps = topMinuteLamps,
+            bottomMinuteLamps = bottomMinuteLamps,
+            normalTime = normalTime
+        )
+        every { getBerlinClockDataUseCase(any()) } returns expectedClock
+        berlinClockViewModel.onEvent(ClockEvent.UpdateClock("11:12:08"))
+        val clockState = berlinClockViewModel.clockState.value
+        clockState.let {
+            assertThat(it.secondLamp).isEqualTo(secondLamp)
+            assertThat(it.topHourLamps).isEqualTo(topHourLamps)
+            assertThat(it.bottomHourLamps).isEqualTo(bottomHourLamps)
+            assertThat(it.topMinuteLamps).isEqualTo(topMinuteLamps)
+            assertThat(it.bottomMinuteLamps).isEqualTo(bottomMinuteLamps)
+            assertThat(it.normalTime).isEqualTo(normalTime)
+        }
+    }
 }
