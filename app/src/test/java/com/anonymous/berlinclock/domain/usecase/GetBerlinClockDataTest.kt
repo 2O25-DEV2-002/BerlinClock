@@ -152,49 +152,45 @@ class GetBerlinClockDataTest {
     }
 
     @Test
-    fun `getBottomHour returns all lamps are OFF at midnight - 0 hour`() {
+    fun `getBottomHour returns all lamps are OFF when the reminder for the hours divided by 5 is 0`() {
         val expectedResult = List(HOUR_LAMP_COUNT) { LampColour.OFF }
-        assertThat(getBerlinClockData.getBottomHour(hour = 0)).isEqualTo(expectedResult)
+        (0..23 step 5).forEach {
+            assertThat(getBerlinClockData.getBottomHour(it)).isEqualTo(expectedResult)
+        }
     }
 
     @Test
-    fun `getBottomHour returns first lamp as RED when the hours is 1`() {
+    fun `getBottomHour returns first lamp as RED when the reminder for the hours divided by 5 is 1`() {
         val expectedResult = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
         expectedResult[0] = LampColour.RED
-        assertThat(getBerlinClockData.getBottomHour(hour = 1)).isEqualTo(expectedResult)
+        (1..23 step 5).forEach {
+            assertThat(getBerlinClockData.getBottomHour(it)).isEqualTo(expectedResult)
+        }
     }
 
     @Test
-    fun `getBottomHour returns first two bottom lamp as RED when the hours is 2`() {
+    fun `getBottomHour returns first two bottom lamp as RED when the reminder for the hours divided by 5 is 2`() {
         val expectedResult = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
         expectedResult.apply {
             this[0] = LampColour.RED
             this[1] = LampColour.RED
         }
-        assertThat(getBerlinClockData.getBottomHour(hour = 2)).isEqualTo(expectedResult)
-    }
-
-    @Test
-    fun `getBottomHour returns first three bottom lamp as RED when the hours is 3`() {
-        val expectedResult = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
-        expectedResult.apply {
-            this[0] = LampColour.RED
-            this[1] = LampColour.RED
-            this[2] = LampColour.RED
+        (2..23 step 5).forEach {
+            assertThat(getBerlinClockData.getBottomHour(it)).isEqualTo(expectedResult)
         }
-        assertThat(getBerlinClockData.getBottomHour(hour = 3)).isEqualTo(expectedResult)
     }
 
     @Test
-    fun `getBottomHour returns all the four bottom lamp as RED when the hours is 4`() {
+    fun `getBottomHour returns first two bottom lamp as RED when the reminder for the hours divided by 5 is 3`() {
         val expectedResult = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
         expectedResult.apply {
             this[0] = LampColour.RED
             this[1] = LampColour.RED
             this[2] = LampColour.RED
-            this[3] = LampColour.RED
         }
-        assertThat(getBerlinClockData.getBottomHour(hour = 4)).isEqualTo(expectedResult)
+        (3..23 step 5).forEach {
+            assertThat(getBerlinClockData.getBottomHour(it)).isEqualTo(expectedResult)
+        }
     }
 
     @Test
