@@ -39,4 +39,10 @@ class GetBerlinClockData {
             if (index < litLampsCount) LampColour.RED else LampColour.OFF
         }
     }
+
+    fun getTopMinute(minutes: Int) {
+        require(minutes in TIME_MIN_VALUE..TIME_MAX_VALUE) {
+            MESSAGE_INPUT_BETWEEN_0_AND_59
+        }
+    }
 }
