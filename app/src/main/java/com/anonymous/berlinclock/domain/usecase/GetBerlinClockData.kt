@@ -9,6 +9,7 @@ import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_59
 import com.anonymous.berlinclock.util.SecondLamp
 import com.anonymous.berlinclock.util.TIME_MAX_VALUE
 import com.anonymous.berlinclock.util.TIME_MIN_VALUE
+import com.anonymous.berlinclock.util.TOP_HOUR_LAMP_VALUE
 import com.anonymous.berlinclock.util.isEven
 
 class GetBerlinClockData {
@@ -22,23 +23,9 @@ class GetBerlinClockData {
         require(hour in TIME_MIN_VALUE..HOUR_MAX_VALUE) {
             MESSAGE_INPUT_BETWEEN_0_AND_23
         }
-        val lamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
-
-        if (hour in 5..9) {
-            lamps[0] = LampColour.RED
-        } else if (hour in 10..14) {
-            lamps[0] = LampColour.RED
-            lamps[1] = LampColour.RED
-        } else if (hour in 15..19) {
-            lamps[0] = LampColour.RED
-            lamps[1] = LampColour.RED
-            lamps[2] = LampColour.RED
-        } else if (hour in 20..23) {
-            lamps[0] = LampColour.RED
-            lamps[1] = LampColour.RED
-            lamps[2] = LampColour.RED
-            lamps[3] = LampColour.RED
+        val litLampsCount = hour / TOP_HOUR_LAMP_VALUE
+        return MutableList(HOUR_LAMP_COUNT) { index ->
+            if (index < litLampsCount) LampColour.RED else LampColour.OFF
         }
-        return lamps
     }
 }
