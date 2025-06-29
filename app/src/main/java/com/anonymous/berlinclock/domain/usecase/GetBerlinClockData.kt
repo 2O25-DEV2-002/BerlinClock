@@ -54,9 +54,7 @@ class GetBerlinClockData {
     }
 
     fun getBottomMinute(minutes: Int) {
-        require(minutes in TIME_MIN_VALUE..TIME_MAX_VALUE) {
-            MESSAGE_INPUT_BETWEEN_0_AND_59
-        }
+        checkValidInputBounds(minutes)
     }
 
     fun checkValidInputBounds(
