@@ -7,6 +7,7 @@ import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_23
 import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_59
 import com.anonymous.berlinclock.util.TIME_MAX_VALUE
 import com.anonymous.berlinclock.util.TIME_MIN_VALUE
+import com.anonymous.berlinclock.util.TOP_MINUTE_LAMP_COUNT
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertThrows
 import org.junit.Before
@@ -212,14 +213,14 @@ class GetBerlinClockDataTest {
     @Test
     fun `getTopMinute throws exception when input greater than 59`() {
         val exception = assertThrows(IllegalArgumentException::class.java) {
-            getBerlinClockData.getSeconds(TIME_MAX_VALUE + 1)
+            getBerlinClockData.getTopMinute(TIME_MAX_VALUE + 1)
         }
         assertThat(exception).hasMessageThat().contains(MESSAGE_INPUT_BETWEEN_0_AND_59)
     }
 
     @Test
     fun `getTopMinute returns all the lamps are OFF when minutes is in the range from 0 to 4`() {
-        val expectedResult = MutableList(11) { LampColour.OFF }
+        val expectedResult = MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF }
         (0..4).forEach {
             assertThat(getBerlinClockData.getTopMinute(it)).isEqualTo(expectedResult)
         }

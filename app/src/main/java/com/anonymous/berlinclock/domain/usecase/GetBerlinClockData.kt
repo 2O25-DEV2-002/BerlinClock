@@ -10,7 +10,9 @@ import com.anonymous.berlinclock.util.SecondLamp
 import com.anonymous.berlinclock.util.TIME_MAX_VALUE
 import com.anonymous.berlinclock.util.TIME_MIN_VALUE
 import com.anonymous.berlinclock.util.TOP_HOUR_LAMP_VALUE
+import com.anonymous.berlinclock.util.TOP_MINUTE_LAMP_COUNT
 import com.anonymous.berlinclock.util.TopHourLamps
+import com.anonymous.berlinclock.util.TopMinuteLamps
 import com.anonymous.berlinclock.util.getQuotient
 import com.anonymous.berlinclock.util.getReminder
 import com.anonymous.berlinclock.util.isEven
@@ -38,9 +40,9 @@ class GetBerlinClockData {
         }
     }
 
-    fun getTopMinute(minutes: Int): List<LampColour> {
+    fun getTopMinute(minutes: Int): TopMinuteLamps {
         checkValidInputBounds(minutes)
-        return MutableList(11) { LampColour.OFF }
+        return MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF }
     }
 
     fun checkValidInputBounds(
