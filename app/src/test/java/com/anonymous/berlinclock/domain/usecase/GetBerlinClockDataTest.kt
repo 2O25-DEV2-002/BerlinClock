@@ -1,6 +1,8 @@
 package com.anonymous.berlinclock.domain.usecase
 
+import com.anonymous.berlinclock.util.HOUR_MAX_VALUE
 import com.anonymous.berlinclock.util.LampColour
+import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_23
 import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_59
 import com.anonymous.berlinclock.util.TIME_MAX_VALUE
 import com.anonymous.berlinclock.util.TIME_MIN_VALUE
@@ -55,15 +57,15 @@ class GetBerlinClockDataTest {
         val exception = assertFailsWith<IllegalArgumentException> {
             getBerlinClockData.getTopHours(TIME_MIN_VALUE - 1)
         }
-        assertThat(exception).hasMessageThat().contains("Hours should be between 0 and 23")
+        assertThat(exception).hasMessageThat().contains(MESSAGE_INPUT_BETWEEN_0_AND_23)
     }
 
     @Test
     fun `getTopHours throws exception when input greater than 23`() {
         getBerlinClockData = GetBerlinClockData()
         val exception = assertFailsWith<IllegalArgumentException> {
-            getBerlinClockData.getTopHours(24)
+            getBerlinClockData.getTopHours(HOUR_MAX_VALUE + 1)
         }
-        assertThat(exception).hasMessageThat().contains("Hours should be between 0 and 23")
+        assertThat(exception).hasMessageThat().contains(MESSAGE_INPUT_BETWEEN_0_AND_23)
     }
 }

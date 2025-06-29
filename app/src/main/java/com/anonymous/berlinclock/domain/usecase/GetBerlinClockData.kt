@@ -1,6 +1,8 @@
 package com.anonymous.berlinclock.domain.usecase
 
+import com.anonymous.berlinclock.util.HOUR_MAX_VALUE
 import com.anonymous.berlinclock.util.LampColour
+import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_23
 import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_59
 import com.anonymous.berlinclock.util.SecondLamp
 import com.anonymous.berlinclock.util.TIME_MAX_VALUE
@@ -15,8 +17,8 @@ class GetBerlinClockData {
     }
 
     fun getTopHours(hour: Int) {
-        require(hour in TIME_MIN_VALUE..23) {
-            "Hours should be between 0 and 23"
+        require(hour in TIME_MIN_VALUE..HOUR_MAX_VALUE) {
+            MESSAGE_INPUT_BETWEEN_0_AND_23
         }
     }
 }
