@@ -100,4 +100,16 @@ class GetBerlinClockDataTest {
         }
         assertThat(getBerlinClockData.getTopHours(hour = 10)).isEqualTo(expectedResult)
     }
+
+    @Test
+    fun `getTopHours returns first two lamp as RED when the hour is from 10 to 14`() {
+        val expectedResult = MutableList(4) { LampColour.OFF }
+        expectedResult.apply {
+            this[0] = LampColour.RED
+            this[1] = LampColour.RED
+        }
+        (10..14).forEach {
+            assertThat(getBerlinClockData.getTopHours(it)).isEqualTo(expectedResult)
+        }
+    }
 }
