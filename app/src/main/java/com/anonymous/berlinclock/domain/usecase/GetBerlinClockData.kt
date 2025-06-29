@@ -34,10 +34,9 @@ class GetBerlinClockData {
         require(hour in TIME_MIN_VALUE..HOUR_MAX_VALUE) {
             MESSAGE_INPUT_BETWEEN_0_AND_23
         }
-        val lamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
-        for (i in 0 until hour) {
-            lamps[i] = LampColour.RED
+        val litLampsCount = hour % TOP_HOUR_LAMP_VALUE
+        return MutableList(HOUR_LAMP_COUNT) { index ->
+            if (index < litLampsCount) LampColour.RED else LampColour.OFF
         }
-        return lamps
     }
 }
