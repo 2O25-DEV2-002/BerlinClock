@@ -259,4 +259,18 @@ class GetBerlinClockDataTest {
             assertThat(getBerlinClockData.getTopMinute(it)).isEqualTo(expectedResult)
         }
     }
+
+    @Test
+    fun `getTopMinute returns first four lamps are ON and third lamp as RED when minutes is in the range from 20 to 24`() {
+        val expectedResult = MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF }
+        expectedResult.apply {
+            this[0] = LampColour.YELLOW
+            this[1] = LampColour.YELLOW
+            this[2] = LampColour.RED
+            this[3] = LampColour.YELLOW
+        }
+        (20..24).forEach {
+            assertThat(getBerlinClockData.getTopMinute(it)).isEqualTo(expectedResult)
+        }
+    }
 }
