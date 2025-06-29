@@ -328,4 +328,13 @@ class GetBerlinClockDataTest {
             assertThat(getBerlinClockData.getBottomMinute(it)).isEqualTo(expectedResult)
         }
     }
+
+    @Test
+    fun `getBottomMinute returns first lamp as YELLOW when reminder for the minutes divided by 5 is 1`() {
+        val expectedResult = MutableList(4) { LampColour.OFF }
+        expectedResult[0] = LampColour.YELLOW
+        (1..59 step 5).forEach {
+            assertThat(getBerlinClockData.getBottomMinute(it)).isEqualTo(expectedResult)
+        }
+    }
 }
