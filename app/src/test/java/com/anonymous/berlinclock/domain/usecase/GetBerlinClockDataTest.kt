@@ -304,4 +304,20 @@ class GetBerlinClockDataTest {
             assertThat(getBerlinClockData.getTopMinute(it)).isEqualTo(expectedResult)
         }
     }
+
+    @Test
+    fun `getBottomMinute throws exception when input is negative`() {
+        val exception = assertFailsWith<IllegalArgumentException> {
+            getBerlinClockData.getBottomMinute(TIME_MIN_VALUE - 1)
+        }
+        assertThat(exception).hasMessageThat().contains(MESSAGE_INPUT_BETWEEN_0_AND_59)
+    }
+
+    @Test
+    fun `getBottomMinute throws exception when input greater than 59`() {
+        val exception = assertThrows(IllegalArgumentException::class.java) {
+            getBerlinClockData.getBottomMinute(TIME_MAX_VALUE + 1)
+        }
+        assertThat(exception).hasMessageThat().contains(MESSAGE_INPUT_BETWEEN_0_AND_59)
+    }
 }
