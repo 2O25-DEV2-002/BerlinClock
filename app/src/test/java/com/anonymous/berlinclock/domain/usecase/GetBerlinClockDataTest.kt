@@ -1,5 +1,6 @@
 package com.anonymous.berlinclock.domain.usecase
 
+import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_59
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertThrows
 import org.junit.Test
@@ -14,7 +15,7 @@ class GetBerlinClockDataTest {
         val exception = assertThrows(IllegalArgumentException::class.java) {
             getBerlinClockData.getSeconds(-1)
         }
-        assertThat(exception).hasMessageThat().contains("Seconds should be 0 or greater")
+        assertThat(exception).hasMessageThat().contains(MESSAGE_INPUT_BETWEEN_0_AND_59)
     }
 
     @Test
@@ -23,6 +24,6 @@ class GetBerlinClockDataTest {
         val exception = assertThrows(IllegalArgumentException::class.java) {
             getBerlinClockData.getSeconds(60)
         }
-        assertThat(exception).hasMessageThat().contains("Seconds should be 0 or greater")
+        assertThat(exception).hasMessageThat().contains(MESSAGE_INPUT_BETWEEN_0_AND_59)
     }
 }
