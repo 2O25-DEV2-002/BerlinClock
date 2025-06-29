@@ -1,5 +1,6 @@
 package com.anonymous.berlinclock.domain.usecase
 
+import com.anonymous.berlinclock.util.HOUR_LAMP_COUNT
 import com.anonymous.berlinclock.util.HOUR_MAX_VALUE
 import com.anonymous.berlinclock.util.LampColour
 import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_23
@@ -71,20 +72,20 @@ class GetBerlinClockDataTest {
 
     @Test
     fun `getTopHours returns all lamps are OFF at midnight - 0 hour`() {
-        val expectedResult = List(4) { LampColour.OFF }
+        val expectedResult = List(HOUR_LAMP_COUNT) { LampColour.OFF }
         assertThat(getBerlinClockData.getTopHours(hour = 0)).isEqualTo(expectedResult)
     }
 
     @Test
     fun `getTopHours returns first lamp as RED when the hours is 5`() {
-        val expectedResult = MutableList(4) { LampColour.OFF }
+        val expectedResult = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
         expectedResult[0] = LampColour.RED
         assertThat(getBerlinClockData.getTopHours(hour = 5)).isEqualTo(expectedResult)
     }
 
     @Test
     fun `getTopHours returns first lamp as RED when the hour is from 5 to 9`() {
-        val expectedResult = MutableList(4) { LampColour.OFF }
+        val expectedResult = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
         expectedResult[0] = LampColour.RED
         (5..9).forEach {
             assertThat(getBerlinClockData.getTopHours(it)).isEqualTo(expectedResult)
@@ -93,7 +94,7 @@ class GetBerlinClockDataTest {
 
     @Test
     fun `getTopHours returns first two lamps as RED when the hours is 10`() {
-        val expectedResult = MutableList(4) { LampColour.OFF }
+        val expectedResult = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
         expectedResult.apply {
             this[0] = LampColour.RED
             this[1] = LampColour.RED
@@ -103,7 +104,7 @@ class GetBerlinClockDataTest {
 
     @Test
     fun `getTopHours returns first two lamp as RED when the hour is from 10 to 14`() {
-        val expectedResult = MutableList(4) { LampColour.OFF }
+        val expectedResult = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
         expectedResult.apply {
             this[0] = LampColour.RED
             this[1] = LampColour.RED
@@ -115,7 +116,7 @@ class GetBerlinClockDataTest {
 
     @Test
     fun `getTopHours returns first three lamp as RED when the hour is from 15 to 19`() {
-        val expectedResult = MutableList(4) { LampColour.OFF }
+        val expectedResult = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
         expectedResult.apply {
             this[0] = LampColour.RED
             this[1] = LampColour.RED
@@ -128,7 +129,7 @@ class GetBerlinClockDataTest {
 
     @Test
     fun `getTopHours returns all top hour lamp as RED when the hour is from 20 to 23`() {
-        val expectedResult = MutableList(4) { LampColour.RED }
+        val expectedResult = MutableList(HOUR_LAMP_COUNT) { LampColour.RED }
         (20..23).forEach {
             assertThat(getBerlinClockData.getTopHours(it)).isEqualTo(expectedResult)
         }

@@ -1,6 +1,8 @@
 package com.anonymous.berlinclock.domain.usecase
 
+import com.anonymous.berlinclock.util.HOUR_LAMP_COUNT
 import com.anonymous.berlinclock.util.HOUR_MAX_VALUE
+import com.anonymous.berlinclock.util.HourLamps
 import com.anonymous.berlinclock.util.LampColour
 import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_23
 import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_59
@@ -16,11 +18,11 @@ class GetBerlinClockData {
         return if (seconds.isEven()) LampColour.YELLOW else LampColour.OFF
     }
 
-    fun getTopHours(hour: Int): List<LampColour> {
+    fun getTopHours(hour: Int): HourLamps {
         require(hour in TIME_MIN_VALUE..HOUR_MAX_VALUE) {
             MESSAGE_INPUT_BETWEEN_0_AND_23
         }
-        val lamps = MutableList(4) { LampColour.OFF }
+        val lamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
 
         if (hour in 5..9) {
             lamps[0] = LampColour.RED
