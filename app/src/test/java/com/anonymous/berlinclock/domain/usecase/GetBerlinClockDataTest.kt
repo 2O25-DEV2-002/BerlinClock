@@ -216,4 +216,12 @@ class GetBerlinClockDataTest {
         }
         assertThat(exception).hasMessageThat().contains(MESSAGE_INPUT_BETWEEN_0_AND_59)
     }
+
+    @Test
+    fun `getTopMinute returns all the lamps are OFF when minutes is in the range from 0 to 4`() {
+        val expectedResult = MutableList(11) { LampColour.OFF }
+        (0..4).forEach {
+            assertThat(getBerlinClockData.getTopMinute(it)).isEqualTo(expectedResult)
+        }
+    }
 }
