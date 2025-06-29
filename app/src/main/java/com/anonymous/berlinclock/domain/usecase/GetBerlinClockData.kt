@@ -16,9 +16,10 @@ class GetBerlinClockData {
         return if (seconds.isEven()) LampColour.YELLOW else LampColour.OFF
     }
 
-    fun getTopHours(hour: Int) {
+    fun getTopHours(hour: Int): List<LampColour> {
         require(hour in TIME_MIN_VALUE..HOUR_MAX_VALUE) {
             MESSAGE_INPUT_BETWEEN_0_AND_23
         }
+        return List(4) { LampColour.OFF }
     }
 }

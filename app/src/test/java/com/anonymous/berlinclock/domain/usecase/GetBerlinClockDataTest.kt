@@ -68,4 +68,11 @@ class GetBerlinClockDataTest {
         }
         assertThat(exception).hasMessageThat().contains(MESSAGE_INPUT_BETWEEN_0_AND_23)
     }
+
+    @Test
+    fun `getTopHours returns all lamps are OFF at midnight - 0 hour`() {
+        getBerlinClockData = GetBerlinClockData()
+        val expectedResult = List(4) { LampColour.OFF }
+        assertThat(getBerlinClockData.getTopHours(hour = 0)).isEqualTo(expectedResult)
+    }
 }
