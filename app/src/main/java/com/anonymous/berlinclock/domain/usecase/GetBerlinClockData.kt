@@ -28,4 +28,10 @@ class GetBerlinClockData {
             if (index < litLampsCount) LampColour.RED else LampColour.OFF
         }
     }
+
+    fun getBottomHour(hour: Int) {
+        require(hour in TIME_MIN_VALUE..HOUR_MAX_VALUE) {
+            MESSAGE_INPUT_BETWEEN_0_AND_23
+        }
+    }
 }
