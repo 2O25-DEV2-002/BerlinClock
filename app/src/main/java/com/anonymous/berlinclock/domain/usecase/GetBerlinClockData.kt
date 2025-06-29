@@ -53,8 +53,9 @@ class GetBerlinClockData {
         }
     }
 
-    fun getBottomMinute(minutes: Int) {
+    fun getBottomMinute(minutes: Int): List<LampColour> {
         checkValidInputBounds(minutes)
+        return MutableList(4) { LampColour.OFF }
     }
 
     fun checkValidInputBounds(
