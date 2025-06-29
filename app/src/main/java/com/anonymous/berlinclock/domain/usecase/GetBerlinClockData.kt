@@ -69,6 +69,14 @@ class GetBerlinClockData {
                 lamps[3] = LampColour.YELLOW
                 lamps[4] = LampColour.YELLOW
             }
+            in (30..34) -> {
+                lamps[0] = LampColour.YELLOW
+                lamps[1] = LampColour.YELLOW
+                lamps[2] = LampColour.RED
+                lamps[3] = LampColour.YELLOW
+                lamps[4] = LampColour.YELLOW
+                lamps[5] = LampColour.RED
+            }
         }
         return lamps
     }
