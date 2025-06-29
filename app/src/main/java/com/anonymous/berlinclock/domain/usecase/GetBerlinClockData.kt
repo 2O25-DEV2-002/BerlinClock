@@ -1,5 +1,6 @@
 package com.anonymous.berlinclock.domain.usecase
 
+import com.anonymous.berlinclock.domain.model.BerlinClock
 import com.anonymous.berlinclock.util.BOTTOM_MINUTE_LAMP_COUNT
 import com.anonymous.berlinclock.util.BottomHourLamps
 import com.anonymous.berlinclock.util.BottomMinuteLamps
@@ -21,6 +22,17 @@ import com.anonymous.berlinclock.util.isEven
 import com.anonymous.berlinclock.util.isMultipleOfThree
 
 class GetBerlinClockData {
+
+    operator fun invoke(time: String): BerlinClock {
+        return BerlinClock(
+            secondLamp = LampColour.YELLOW,
+            topHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF },
+            bottomHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF },
+            topMinuteLamps = MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF },
+            bottomMinuteLamps = MutableList(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.OFF },
+            normalTime = time
+        )
+    }
 
     fun getSeconds(seconds: Int): SecondLamp {
         checkValidInputBounds(seconds)

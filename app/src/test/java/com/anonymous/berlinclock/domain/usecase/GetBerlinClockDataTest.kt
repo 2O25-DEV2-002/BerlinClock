@@ -1,5 +1,6 @@
 package com.anonymous.berlinclock.domain.usecase
 
+import com.anonymous.berlinclock.domain.model.BerlinClock
 import com.anonymous.berlinclock.util.BOTTOM_MINUTE_LAMP_COUNT
 import com.anonymous.berlinclock.util.HOUR_LAMP_COUNT
 import com.anonymous.berlinclock.util.HOUR_MAX_VALUE
@@ -370,5 +371,20 @@ class GetBerlinClockDataTest {
         (4..59 step 5).forEach {
             assertThat(getBerlinClockData.getBottomMinute(it)).isEqualTo(expectedResult)
         }
+    }
+
+    @Test
+    fun `returns aggregate berlin time with all lamp as OFF and seconds as YELLOW when time is 0 in string format`() {
+        val timeString = "00:00:00"
+        val expectedResult = BerlinClock(
+            secondLamp = LampColour.YELLOW,
+            topHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF },
+            bottomMinuteLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF },
+            topMinuteLamps = MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF },
+            bottomHourLamps = MutableList(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.OFF },
+            normalTime = timeString
+        )
+        val berlinClock = getBerlinClockData(time = timeString)
+        assertThat(berlinClock).isEqualTo(expectedResult)
     }
 }
