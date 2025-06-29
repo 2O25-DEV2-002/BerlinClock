@@ -16,6 +16,7 @@ import com.anonymous.berlinclock.util.TopMinuteLamps
 import com.anonymous.berlinclock.util.getQuotient
 import com.anonymous.berlinclock.util.getReminder
 import com.anonymous.berlinclock.util.isEven
+import com.anonymous.berlinclock.util.isMultipleOfThree
 
 class GetBerlinClockData {
 
@@ -45,7 +46,7 @@ class GetBerlinClockData {
         val litLampsCount = minutes.getQuotient(5)
         return MutableList(TOP_MINUTE_LAMP_COUNT) { index ->
             if (index < litLampsCount) {
-                if ((index + 1) % 3 == 0) LampColour.RED else LampColour.YELLOW
+                if ((index + 1).isMultipleOfThree()) LampColour.RED else LampColour.YELLOW
             } else {
                 LampColour.OFF
             }
