@@ -163,4 +163,14 @@ class GetBerlinClockDataTest {
         expectedResult[0] = LampColour.RED
         assertThat(getBerlinClockData.getBottomHour(hour = 1)).isEqualTo(expectedResult)
     }
+
+    @Test
+    fun `getBottomHour returns first two bottom lamp as RED when the hours is 2`() {
+        val expectedResult = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
+        expectedResult.apply {
+            this[0] = LampColour.RED
+            this[1] = LampColour.RED
+        }
+        assertThat(getBerlinClockData.getBottomHour(hour = 2)).isEqualTo(expectedResult)
+    }
 }

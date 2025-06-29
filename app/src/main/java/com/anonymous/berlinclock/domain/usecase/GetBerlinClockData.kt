@@ -36,6 +36,9 @@ class GetBerlinClockData {
         val lamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
         if (hour == 1) {
             lamps[0] = LampColour.RED
+        } else if (hour == 2) {
+            lamps[0] = LampColour.RED
+            lamps[1] = LampColour.RED
         }
         return lamps
     }
