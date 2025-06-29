@@ -42,7 +42,11 @@ class GetBerlinClockData {
 
     fun getTopMinute(minutes: Int): TopMinuteLamps {
         checkValidInputBounds(minutes)
-        return MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF }
+        val lamps = MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF }
+        if (minutes in 5..9) {
+            lamps[0] = LampColour.YELLOW
+        }
+        return lamps
     }
 
     fun checkValidInputBounds(
