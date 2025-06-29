@@ -43,40 +43,9 @@ class GetBerlinClockData {
     fun getTopMinute(minutes: Int): TopMinuteLamps {
         checkValidInputBounds(minutes)
         val lamps = MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF }
-        when (minutes) {
-            in (5..9) -> {
-                lamps[0] = LampColour.YELLOW
-            }
-            in (10..14) -> {
-                lamps[0] = LampColour.YELLOW
-                lamps[1] = LampColour.YELLOW
-            }
-            in (15..19) -> {
-                lamps[0] = LampColour.YELLOW
-                lamps[1] = LampColour.YELLOW
-                lamps[2] = LampColour.RED
-            }
-            in (20..24) -> {
-                lamps[0] = LampColour.YELLOW
-                lamps[1] = LampColour.YELLOW
-                lamps[2] = LampColour.RED
-                lamps[3] = LampColour.YELLOW
-            }
-            in (25..29) -> {
-                lamps[0] = LampColour.YELLOW
-                lamps[1] = LampColour.YELLOW
-                lamps[2] = LampColour.RED
-                lamps[3] = LampColour.YELLOW
-                lamps[4] = LampColour.YELLOW
-            }
-            in (30..34) -> {
-                lamps[0] = LampColour.YELLOW
-                lamps[1] = LampColour.YELLOW
-                lamps[2] = LampColour.RED
-                lamps[3] = LampColour.YELLOW
-                lamps[4] = LampColour.YELLOW
-                lamps[5] = LampColour.RED
-            }
+        val litLampCount = minutes.getQuotient(5)
+        for (i in 0 until litLampCount) {
+            lamps[i] = if ((i + 1) % 3 == 0) LampColour.RED else LampColour.YELLOW
         }
         return lamps
     }
