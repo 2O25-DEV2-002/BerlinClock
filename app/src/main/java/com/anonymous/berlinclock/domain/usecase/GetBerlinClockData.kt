@@ -10,12 +10,14 @@ import com.anonymous.berlinclock.util.LampColour
 import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_23
 import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_59
 import com.anonymous.berlinclock.util.SecondLamp
+import com.anonymous.berlinclock.util.TIME_FORMAT
 import com.anonymous.berlinclock.util.TIME_MAX_VALUE
 import com.anonymous.berlinclock.util.TIME_MIN_VALUE
 import com.anonymous.berlinclock.util.TOP_HOUR_LAMP_VALUE
 import com.anonymous.berlinclock.util.TOP_MINUTE_LAMP_COUNT
 import com.anonymous.berlinclock.util.TopHourLamps
 import com.anonymous.berlinclock.util.TopMinuteLamps
+import com.anonymous.berlinclock.util.formattedData
 import com.anonymous.berlinclock.util.getQuotient
 import com.anonymous.berlinclock.util.getReminder
 import com.anonymous.berlinclock.util.isEven
@@ -25,16 +27,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 
 class GetBerlinClockData {
 
     operator fun invoke(): Flow<BerlinClock> = flow {
         while (true) {
             val currentDate = DateTime.now()
-            val formattedTime = DateTimeFormat.forPattern("HH:mm:ss").print(currentDate)
+            val formattedTime = currentDate.formattedData(TIME_FORMAT)
             emit(invoke(formattedTime))
-            delay(1000)
+            delay(DELAY)
         }
     }
 
@@ -99,5 +100,9 @@ class GetBerlinClockData {
         require(inputTime in TIME_MIN_VALUE..maxValue) {
             upperBoundMessage
         }
+    }
+
+    companion object {
+        const val DELAY: Long = 1000
     }
 }
