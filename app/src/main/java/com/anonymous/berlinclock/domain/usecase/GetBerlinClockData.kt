@@ -1,6 +1,8 @@
 package com.anonymous.berlinclock.domain.usecase
 
+import com.anonymous.berlinclock.util.BOTTOM_MINUTE_LAMP_COUNT
 import com.anonymous.berlinclock.util.BottomHourLamps
+import com.anonymous.berlinclock.util.BottomMinuteLamps
 import com.anonymous.berlinclock.util.HOUR_LAMP_COUNT
 import com.anonymous.berlinclock.util.HOUR_MAX_VALUE
 import com.anonymous.berlinclock.util.LampColour
@@ -53,10 +55,10 @@ class GetBerlinClockData {
         }
     }
 
-    fun getBottomMinute(minutes: Int): List<LampColour> {
+    fun getBottomMinute(minutes: Int): BottomMinuteLamps {
         checkValidInputBounds(minutes)
         val litLampsCount = minutes.getReminder(5)
-        return MutableList(4) { index ->
+        return MutableList(BOTTOM_MINUTE_LAMP_COUNT) { index ->
             if (index < litLampsCount) LampColour.YELLOW else LampColour.OFF
         }
     }

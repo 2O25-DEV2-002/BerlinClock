@@ -8,3 +8,4 @@ const val HOUR_MAX_VALUE = 23
 const val HOUR_LAMP_COUNT = 4
 const val TOP_HOUR_LAMP_VALUE = 5
 const val TOP_MINUTE_LAMP_COUNT = 11
+const val BOTTOM_MINUTE_LAMP_COUNT = 4

@@ -1,5 +1,6 @@
 package com.anonymous.berlinclock.domain.usecase
 
+import com.anonymous.berlinclock.util.BOTTOM_MINUTE_LAMP_COUNT
 import com.anonymous.berlinclock.util.HOUR_LAMP_COUNT
 import com.anonymous.berlinclock.util.HOUR_MAX_VALUE
 import com.anonymous.berlinclock.util.LampColour
@@ -323,7 +324,7 @@ class GetBerlinClockDataTest {
 
     @Test
     fun `getBottomMinute returns all the lamps are OFF when reminder for the minutes divided by 5 is 0`() {
-        val expectedResult = MutableList(4) { LampColour.OFF }
+        val expectedResult = MutableList(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.OFF }
         (0..59 step 5).forEach {
             assertThat(getBerlinClockData.getBottomMinute(it)).isEqualTo(expectedResult)
         }
@@ -331,7 +332,7 @@ class GetBerlinClockDataTest {
 
     @Test
     fun `getBottomMinute returns first lamp as YELLOW when reminder for the minutes divided by 5 is 1`() {
-        val expectedResult = MutableList(4) { LampColour.OFF }
+        val expectedResult = MutableList(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.OFF }
         expectedResult[0] = LampColour.YELLOW
         (1..59 step 5).forEach {
             assertThat(getBerlinClockData.getBottomMinute(it)).isEqualTo(expectedResult)
@@ -340,7 +341,7 @@ class GetBerlinClockDataTest {
 
     @Test
     fun `getBottomMinute returns first two lamp as YELLOW when reminder for the minutes divided by 5 is 2`() {
-        val expectedResult = MutableList(4) { LampColour.OFF }
+        val expectedResult = MutableList(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.OFF }
         for (i in 0..1) {
             expectedResult[i] = LampColour.YELLOW
         }
@@ -351,7 +352,7 @@ class GetBerlinClockDataTest {
 
     @Test
     fun `getBottomMinute returns first three lamp as YELLOW when reminder for the minutes divided by 5 is 3`() {
-        val expectedResult = MutableList(4) { LampColour.OFF }
+        val expectedResult = MutableList(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.OFF }
         for (i in 0..2) {
             expectedResult[i] = LampColour.YELLOW
         }
@@ -362,7 +363,7 @@ class GetBerlinClockDataTest {
 
     @Test
     fun `getBottomMinute returns all the four lamps as YELLOW when reminder for the minutes divided by 5 is 4`() {
-        val expectedResult = MutableList(4) { LampColour.OFF }
+        val expectedResult = MutableList(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.OFF }
         for (i in 0..3) {
             expectedResult[i] = LampColour.YELLOW
         }
