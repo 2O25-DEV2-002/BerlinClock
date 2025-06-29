@@ -24,6 +24,9 @@ class GetBerlinClockData {
 
         if (hour in 5..9) {
             lamps[0] = LampColour.RED
+        } else if (hour == 10) {
+            lamps[0] = LampColour.RED
+            lamps[1] = LampColour.RED
         }
         return lamps
     }
