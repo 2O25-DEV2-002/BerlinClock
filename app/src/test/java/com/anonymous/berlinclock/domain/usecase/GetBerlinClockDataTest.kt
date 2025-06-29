@@ -26,4 +26,22 @@ class GetBerlinClockDataTest {
         }
         assertThat(exception).hasMessageThat().contains(MESSAGE_INPUT_BETWEEN_0_AND_59)
     }
+
+    @Test
+    fun `getSeconds returns lamp is OFF for all the odd seconds`() {
+        getBerlinClockData = GetBerlinClockData()
+        (1..59 step 2).forEach {
+            val result = getBerlinClockData.getSeconds(it)
+            assertThat(result).isEqualTo("OFF")
+        }
+    }
+
+    @Test
+    fun `getSeconds returns lamp is ON for all the even seconds`() {
+        getBerlinClockData = GetBerlinClockData()
+        (0..58 step 2).forEach {
+            val result = getBerlinClockData.getSeconds(it)
+            assertThat(result).isEqualTo("ON")
+        }
+    }
 }
