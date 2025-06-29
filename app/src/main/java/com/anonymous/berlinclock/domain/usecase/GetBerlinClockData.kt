@@ -24,12 +24,13 @@ import com.anonymous.berlinclock.util.isMultipleOfThree
 class GetBerlinClockData {
 
     operator fun invoke(time: String): BerlinClock {
+        val (hour, min, sec) = time.split(":").map { it.toInt() }
         return BerlinClock(
-            secondLamp = LampColour.YELLOW,
-            topHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF },
-            bottomHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF },
-            topMinuteLamps = MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF },
-            bottomMinuteLamps = MutableList(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.OFF },
+            secondLamp = getSeconds(sec),
+            topHourLamps = getTopHours(hour),
+            bottomHourLamps = getBottomHour(hour),
+            topMinuteLamps = getTopMinute(min),
+            bottomMinuteLamps = getBottomMinute(min),
             normalTime = time
         )
     }
