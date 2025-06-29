@@ -55,23 +55,10 @@ class GetBerlinClockData {
 
     fun getBottomMinute(minutes: Int): List<LampColour> {
         checkValidInputBounds(minutes)
-        val lamps = MutableList(4) { LampColour.OFF }
-        if (minutes in (1..59 step 5)) {
-            lamps[0] = LampColour.YELLOW
-        } else if (minutes in (2..59 step 5)) {
-            lamps[0] = LampColour.YELLOW
-            lamps[1] = LampColour.YELLOW
-        } else if (minutes in (3..59 step 5)) {
-            lamps[0] = LampColour.YELLOW
-            lamps[1] = LampColour.YELLOW
-            lamps[2] = LampColour.YELLOW
-        } else if (minutes in (4..59 step 5)) {
-            lamps[0] = LampColour.YELLOW
-            lamps[1] = LampColour.YELLOW
-            lamps[2] = LampColour.YELLOW
-            lamps[3] = LampColour.YELLOW
+        val litLampsCount = minutes.getReminder(5)
+        return MutableList(4) { index ->
+            if (index < litLampsCount) LampColour.YELLOW else LampColour.OFF
         }
-        return lamps
     }
 
     fun checkValidInputBounds(
