@@ -2,6 +2,7 @@ package com.anonymous.berlinclock.presentation.berlinclock
 
 import com.anonymous.berlinclock.util.HOUR_LAMP_COUNT
 import com.anonymous.berlinclock.util.LampColour
+import com.anonymous.berlinclock.util.TOP_MINUTE_LAMP_COUNT
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -27,5 +28,10 @@ class ClockStateTest {
     @Test
     fun `check bottom hour lamps are initially OFF`() {
         assertThat(clockState.bottomHourLamps).isEqualTo(List(HOUR_LAMP_COUNT) { LampColour.OFF })
+    }
+
+    @Test
+    fun `check top minutes lamps are initially OFF`() {
+        assertThat(clockState.topMinuteLamps).isEqualTo(List(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF })
     }
 }
