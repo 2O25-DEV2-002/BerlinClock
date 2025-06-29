@@ -65,6 +65,11 @@ class GetBerlinClockData {
             lamps[0] = LampColour.YELLOW
             lamps[1] = LampColour.YELLOW
             lamps[2] = LampColour.YELLOW
+        } else if (minutes in (4..59 step 5)) {
+            lamps[0] = LampColour.YELLOW
+            lamps[1] = LampColour.YELLOW
+            lamps[2] = LampColour.YELLOW
+            lamps[3] = LampColour.YELLOW
         }
         return lamps
     }
