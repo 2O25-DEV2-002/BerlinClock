@@ -7,6 +7,7 @@ import com.anonymous.berlinclock.util.TIME_MIN_VALUE
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertThrows
 import org.junit.Test
+import kotlin.test.assertFailsWith
 
 class GetBerlinClockDataTest {
 
@@ -46,5 +47,23 @@ class GetBerlinClockDataTest {
             val result = getBerlinClockData.getSeconds(it)
             assertThat(result).isEqualTo(LampColour.YELLOW)
         }
+    }
+
+    @Test
+    fun `getTopHours throws exception when input is negative`() {
+        getBerlinClockData = GetBerlinClockData()
+        val exception = assertFailsWith<IllegalArgumentException> {
+            getBerlinClockData.getTopHours(TIME_MIN_VALUE - 1)
+        }
+        assertThat(exception).hasMessageThat().contains("Hours should be between 0 and 23")
+    }
+
+    @Test
+    fun `getTopHours throws exception when input greater than 23`() {
+        getBerlinClockData = GetBerlinClockData()
+        val exception = assertFailsWith<IllegalArgumentException> {
+            getBerlinClockData.getTopHours(24)
+        }
+        assertThat(exception).hasMessageThat().contains("Hours should be between 0 and 23")
     }
 }
