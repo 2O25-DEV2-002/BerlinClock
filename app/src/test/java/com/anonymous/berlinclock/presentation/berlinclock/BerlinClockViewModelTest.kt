@@ -44,12 +44,8 @@ class BerlinClockViewModelTest {
         topMinuteLamps = MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.YELLOW }
         bottomMinuteLamps = List(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.YELLOW }
         normalTime = "11:12:08"
-    }
-
-    @Test
-    fun `check berlin clock lamps are updating for the automatic clock scenario`() = runTest {
         berlinClockViewModel = BerlinClockViewModel(getBerlinClockDataUseCase)
-        val expectedClockState = BerlinClock(
+        expectedClockState = BerlinClock(
             secondLamp = secondLamp,
             topHourLamps = topHourLamps,
             bottomHourLamps = bottomHourLamps,
@@ -57,6 +53,10 @@ class BerlinClockViewModelTest {
             bottomMinuteLamps = bottomMinuteLamps,
             normalTime = normalTime
         )
+    }
+
+    @Test
+    fun `check berlin clock lamps are updating for the automatic clock scenario`() = runTest {
         every { getBerlinClockDataUseCase() } returns flowOf(expectedClockState)
         berlinClockViewModel.onEvent(ClockEvent.StartAutomaticClock)
         val clockState = berlinClockViewModel.clockState.value
@@ -72,15 +72,6 @@ class BerlinClockViewModelTest {
 
     @Test
     fun `check berlin clock lamps are updating for the manual clock scenario`() = runTest {
-        berlinClockViewModel = BerlinClockViewModel(getBerlinClockDataUseCase)
-        expectedClockState = BerlinClock(
-            secondLamp = secondLamp,
-            topHourLamps = topHourLamps,
-            bottomHourLamps = bottomHourLamps,
-            topMinuteLamps = topMinuteLamps,
-            bottomMinuteLamps = bottomMinuteLamps,
-            normalTime = normalTime
-        )
         every { getBerlinClockDataUseCase(any()) } returns expectedClockState
         berlinClockViewModel.onEvent(ClockEvent.UpdateClock(normalTime))
         val clockState = berlinClockViewModel.clockState.value
@@ -91,6 +82,25 @@ class BerlinClockViewModelTest {
             assertThat(it.topMinuteLamps).isEqualTo(topMinuteLamps)
             assertThat(it.bottomMinuteLamps).isEqualTo(bottomMinuteLamps)
             assertThat(it.normalTime).isEqualTo(normalTime)
+        }
+    }
+
+    @Test
+    fun `check stopping automatic clock scenario`() = runTest {
+        every { getBerlinClockDataUseCase() } returns flowOf(expectedClockState)
+        berlinClockViewModel.onEvent(ClockEvent.StartAutomaticClock)
+        val clockState = berlinClockViewModel.clockState.value
+        clockState.let {
+            assertThat(
+                it.secondLamp == secondLamp &&
+                        it.topHourLamps == topHourLamps &&
+                        it.bottomHourLamps == bottomHourLamps &&
+                        it.topMinuteLamps == topMinuteLamps &&
+                        it.bottomMinuteLamps == bottomMinuteLamps &&
+                        it.normalTime == normalTime
+            ).isTrue()
+            berlinClockViewModel.onEvent(ClockEvent.StopAutomaticClock)
+            assertThat(berlinClockViewModel.clockState.value == ClockState()).isTrue()
         }
     }
 }
