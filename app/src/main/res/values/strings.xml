@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">BerlinClock</string>
     <string name="automatic_clock">Automatic clock</string>
+    <string name="hour">Hour</string>Add commentMore actions
+    <string name="minute">Min</string>
+    <string name="second">Sec</string>
+    <string name="show_berlin_time">Show Berlin time</string>
 </resources>
