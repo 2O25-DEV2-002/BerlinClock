@@ -28,7 +28,9 @@ import com.anonymous.berlinclock.R
 import com.anonymous.berlinclock.util.TestTags
 
 @Composable
-fun TimeSelector() {
+fun TimeSelector(
+    showBerlinTime: (String) -> Unit
+) {
     var selectedHour by remember { mutableStateOf("") }
     var selectedMinute by remember { mutableStateOf("") }
     var selectedSecond by remember { mutableStateOf("") }
@@ -108,6 +110,7 @@ fun TimeSelector() {
         Spacer(modifier = Modifier.height(12.dp))
         Button(
             onClick = {
+                showBerlinTime("$selectedHour:$selectedMinute:$selectedSecond")
             },
             modifier = Modifier
                 .semantics {

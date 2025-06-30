@@ -18,7 +18,7 @@ fun BerlinClockNavGraph() {
         composable(Screen.BerlinClockScreen.route) {
             val viewModel = hiltViewModel<BerlinClockViewModel>()
             val state = viewModel.clockState
-            BerlinClockScreen(state)
+            BerlinClockScreen(state, viewModel::onEvent)
         }
     }
 }

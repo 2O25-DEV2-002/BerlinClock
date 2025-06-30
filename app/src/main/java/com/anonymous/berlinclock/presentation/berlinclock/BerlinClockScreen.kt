@@ -39,7 +39,8 @@ import com.anonymous.berlinclock.presentation.berlinclock.components.TimeSelecto
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BerlinClockScreen(
-    state: StateFlow<ClockState>
+    state: StateFlow<ClockState>,
+    onEvent: (ClockEvent) -> Unit
 ) {
     val clockState by state.collectAsStateWithLifecycle()
     Surface(
@@ -80,7 +81,9 @@ fun BerlinClockScreen(
                         showTimeSelector = !isToggleOn
                     }
                     if (showTimeSelector) {
-                        TimeSelector()
+                        TimeSelector { it ->
+                            onEvent(ClockEvent.UpdateClock(it))
+                        }
                     }
                     NormalTime()
                     BerlinClock(clockState = clockState)
@@ -108,6 +111,6 @@ fun ClockPreview() {
     BerlinClockScreen(
         state = MutableStateFlow(
             ClockState()
-        )
+        ), onEvent = {}
     )
 }

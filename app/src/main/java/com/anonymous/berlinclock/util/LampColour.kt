@@ -1,7 +1,7 @@
 package com.anonymous.berlinclock.util
 
 enum class LampColour(val color: String) {
-    YELLOW(""),
+    YELLOW("#FFFF00"),
     OFF("#FFFFFF"),
-    RED("")
+    RED("#FF0000")
 }

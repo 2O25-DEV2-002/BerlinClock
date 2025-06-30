@@ -20,9 +20,11 @@ import androidx.compose.ui.unit.dp
 import com.anonymous.berlinclock.presentation.berlinclock.ClockState
 import com.anonymous.berlinclock.util.BottomHourLamps
 import com.anonymous.berlinclock.util.BottomMinuteLamps
+import com.anonymous.berlinclock.util.LampColour
 import com.anonymous.berlinclock.util.TestTags
 import com.anonymous.berlinclock.util.TopHourLamps
 import com.anonymous.berlinclock.util.TopMinuteLamps
+import androidx.core.graphics.toColorInt
 
 @Composable
 fun BerlinClock(clockState: ClockState) {
@@ -30,22 +32,22 @@ fun BerlinClock(clockState: ClockState) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        SecondsLamp()
+        SecondsLamp(clockState.secondLamp)
         DisplayHourLamps(clockState)
         DisplayMinuteLamps(clockState)
     }
 }
 
 @Composable
-fun SecondsLamp() {
+fun SecondsLamp(lamp: LampColour) {
     Box(
         modifier = Modifier
             .padding(vertical = 8.dp)
             .size(80.dp)
             .clip(CircleShape)
             .border(2.dp, Color.DarkGray, CircleShape)
-            .testTag("${TestTags.SECOND_LAMP}-OFF-#FFFFFF")
-            .background(Color.White)
+            .testTag("${TestTags.SECOND_LAMP}-${lamp.name}-${lamp.color}")
+            .background(Color(lamp.color.toColorInt()))
     )
 }
 
@@ -67,8 +69,10 @@ fun TopHourLamps(modifier: Modifier, lamps: TopHourLamps) {
                 modifier = Modifier.weight(1f),
                 horizontalArrangement = Arrangement.Center
             ) {
+                val lamp = lamps[it]
                 Lamp(
-                    tag = "${TestTags.TOP_HOUR_LAMP}$it-OFF-#FFFFFF"
+                    tag = "${TestTags.TOP_HOUR_LAMP}$it-${lamp.name}-${lamp.color}",
+                    lamp = lamp
                 )
             }
 
@@ -87,9 +91,10 @@ fun BottomHourLamps(modifier: Modifier, lamps: BottomHourLamps) {
                 modifier = Modifier.weight(1f),
                 horizontalArrangement = Arrangement.Center
             ) {
-
+                val lamp = lamps[it]
                 Lamp(
-                    tag = "${TestTags.BOTTOM_HOUR_LAMP}$it-OFF-#FFFFFF"
+                    tag = "${TestTags.BOTTOM_HOUR_LAMP}$it-${lamp.name}-${lamp.color}",
+                    lamp = lamp
                 )
             }
         }
@@ -114,8 +119,10 @@ fun TopMinuteLamps(lamps: TopMinuteLamps) {
                 modifier = Modifier.weight(1f),
                 horizontalArrangement = Arrangement.Center
             ) {
+                val lamp = lamps[it]
                 Lamp(
-                    tag = "${TestTags.TOP_MIN_LAMP}${it}-OFF-#FFFFFF"
+                    tag = "${TestTags.TOP_MIN_LAMP}${it}-${lamp.name}-${lamp.color}",
+                    lamp = lamp
                 )
             }
         }
@@ -134,8 +141,10 @@ fun BottomMinuteLamps(lamps: BottomMinuteLamps) {
                 modifier = Modifier.weight(1f),
                 horizontalArrangement = Arrangement.Center
             ) {
+                val lamp = lamps[it]
                 Lamp(
-                    tag = "${TestTags.BOTTOM_MIN_LAMP}$it-OFF-#FFFFFF"
+                    tag = "${TestTags.BOTTOM_MIN_LAMP}$it-${lamp.name}-${lamp.color}",
+                    lamp = lamp
                 )
             }
         }
