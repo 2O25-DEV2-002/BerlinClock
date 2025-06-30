@@ -11,6 +11,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTextReplacement
 import com.anonymous.berlinclock.MainActivity
@@ -217,6 +218,17 @@ class BerlinClockScreenTest {
                 composeRule.onNodeWithContentDescription(it)
                     .assertTextEquals(minValue.toString())
             }
+        }
+    }
+
+    @Test
+    fun checkTimeSelectorFieldsHandleTextClearance() {
+        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
+        timeSelectorInputFields.forEach {
+            composeRule.onNodeWithContentDescription(it)
+                .performTextReplacement("0")
+            composeRule.onNodeWithContentDescription(it)
+                .performTextClearance()
         }
     }
 
