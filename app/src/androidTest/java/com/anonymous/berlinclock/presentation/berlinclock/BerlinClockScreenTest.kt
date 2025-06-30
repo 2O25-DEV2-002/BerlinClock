@@ -20,8 +20,23 @@ import com.anonymous.berlinclock.ui.theme.BerlinClockTheme
 import com.anonymous.berlinclock.util.BOTTOM_MINUTE_LAMP_COUNT
 import com.anonymous.berlinclock.util.EMPTY_STRING
 import com.anonymous.berlinclock.util.HOUR_LAMP_COUNT
+import com.anonymous.berlinclock.util.HOUR_MAX_VALUE
+import com.anonymous.berlinclock.util.TIME_MAX_VALUE
+import com.anonymous.berlinclock.util.TIME_MIN_VALUE
 import com.anonymous.berlinclock.util.TOP_MINUTE_LAMP_COUNT
-import com.anonymous.berlinclock.util.TestTags
+import com.anonymous.berlinclock.util.TestTags.BOTTOM_HOUR_LAMP
+import com.anonymous.berlinclock.util.TestTags.BOTTOM_MIN_LAMP
+import com.anonymous.berlinclock.util.TestTags.HOUR_SELECTOR
+import com.anonymous.berlinclock.util.TestTags.MINUTE_SELECTOR
+import com.anonymous.berlinclock.util.TestTags.NORMAL_TIME
+import com.anonymous.berlinclock.util.TestTags.SECOND_LAMP
+import com.anonymous.berlinclock.util.TestTags.SECOND_SELECTOR
+import com.anonymous.berlinclock.util.TestTags.SHOW_BERLIN_TIME_BUTTON
+import com.anonymous.berlinclock.util.TestTags.TIME_SELECTOR
+import com.anonymous.berlinclock.util.TestTags.TOGGLE
+import com.anonymous.berlinclock.util.TestTags.TOP_BAR
+import com.anonymous.berlinclock.util.TestTags.TOP_HOUR_LAMP
+import com.anonymous.berlinclock.util.TestTags.TOP_MIN_LAMP
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -53,34 +68,34 @@ class BerlinClockScreenTest {
 
     @Test
     fun validateTopBarIsVisible() {
-        composeRule.onNodeWithTag(TestTags.TOP_BAR).assertIsDisplayed()
+        composeRule.onNodeWithTag(TOP_BAR).assertIsDisplayed()
     }
 
     @Test
     fun validateToggleSwitchIsVisible() {
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).assertIsDisplayed()
+        composeRule.onNodeWithContentDescription(TOGGLE).assertIsDisplayed()
     }
 
     @Test
     fun validateBerlinClockIsVisibleInitially() {
-        composeRule.onNodeWithTag(TestTags.NORMAL_TIME).assertIsDisplayed()
-        composeRule.onNodeWithTag(TestTags.SECOND_LAMP).assertIsDisplayed()
+        composeRule.onNodeWithTag(NORMAL_TIME).assertIsDisplayed()
+        composeRule.onNodeWithTag(SECOND_LAMP).assertIsDisplayed()
         repeat(HOUR_LAMP_COUNT) {
-            composeRule.onNodeWithTag("${TestTags.TOP_HOUR_LAMP}$it").assertIsDisplayed()
-            composeRule.onNodeWithTag("${TestTags.BOTTOM_HOUR_LAMP}$it").assertIsDisplayed()
+            composeRule.onNodeWithTag("${TOP_HOUR_LAMP}$it").assertIsDisplayed()
+            composeRule.onNodeWithTag("${BOTTOM_HOUR_LAMP}$it").assertIsDisplayed()
         }
         repeat(TOP_MINUTE_LAMP_COUNT) {
-            composeRule.onNodeWithTag("${TestTags.TOP_MIN_LAMP}$it").assertIsDisplayed()
+            composeRule.onNodeWithTag("${TOP_MIN_LAMP}$it").assertIsDisplayed()
         }
         repeat(BOTTOM_MINUTE_LAMP_COUNT) {
-            composeRule.onNodeWithTag("${TestTags.BOTTOM_MIN_LAMP}$it").assertIsDisplayed()
+            composeRule.onNodeWithTag("${BOTTOM_MIN_LAMP}$it").assertIsDisplayed()
         }
     }
 
     @Test
     fun validateTimeSelectorIsDisplayedWhenAutomaticClockIsOff() {
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).assertIsOff()
+        composeRule.onNodeWithContentDescription(TOGGLE).performClick()
+        composeRule.onNodeWithContentDescription(TOGGLE).assertIsOff()
         timeSelectorUiComponents.forEach {
             composeRule.onNodeWithContentDescription(it).assertIsDisplayed()
         }
@@ -88,7 +103,7 @@ class BerlinClockScreenTest {
 
     @Test
     fun validateTimeSelectorIsHiddenAndAutomaticToggleIsOnInitially() {
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).assertIsOn()
+        composeRule.onNodeWithContentDescription(TOGGLE).assertIsOn()
         timeSelectorUiComponents.forEach {
             composeRule.onNodeWithContentDescription(it).assertDoesNotExist()
         }
@@ -96,30 +111,28 @@ class BerlinClockScreenTest {
 
     @Test
     fun validateShowBerlinTimeButtonIsDisabledUntilAllThreeHourMinuteAndSecondFieldsAreFilled() {
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).assertIsOff()
-        TestTags.let {
-            timeSelectorInputFields.forEach { contentDesc ->
-                composeRule.onNodeWithContentDescription(contentDesc).performTextInput(EMPTY_STRING)
-            }
-            composeRule.onNodeWithContentDescription(TestTags.SHOW_BERLIN_TIME_BUTTON)
-                .assertIsNotEnabled()
-            composeRule.onNodeWithContentDescription(it.HOUR_SELECTOR).performTextInput("1")
-            composeRule.onNodeWithContentDescription(TestTags.SHOW_BERLIN_TIME_BUTTON)
-                .assertIsNotEnabled()
-            composeRule.onNodeWithContentDescription(it.MINUTE_SELECTOR).performTextInput("1")
-            composeRule.onNodeWithContentDescription(TestTags.SHOW_BERLIN_TIME_BUTTON)
-                .assertIsNotEnabled()
-            composeRule.onNodeWithContentDescription(it.SECOND_SELECTOR).performTextInput("1")
-            composeRule.onNodeWithContentDescription(TestTags.SHOW_BERLIN_TIME_BUTTON)
-                .assertIsEnabled()
+        composeRule.onNodeWithContentDescription(TOGGLE).performClick()
+        composeRule.onNodeWithContentDescription(TOGGLE).assertIsOff()
+        timeSelectorInputFields.forEach { contentDesc ->
+            composeRule.onNodeWithContentDescription(contentDesc).performTextInput(EMPTY_STRING)
         }
+        composeRule.onNodeWithContentDescription(SHOW_BERLIN_TIME_BUTTON)
+            .assertIsNotEnabled()
+        composeRule.onNodeWithContentDescription(HOUR_SELECTOR).performTextInput("1")
+        composeRule.onNodeWithContentDescription(SHOW_BERLIN_TIME_BUTTON)
+            .assertIsNotEnabled()
+        composeRule.onNodeWithContentDescription(MINUTE_SELECTOR).performTextInput("1")
+        composeRule.onNodeWithContentDescription(SHOW_BERLIN_TIME_BUTTON)
+            .assertIsNotEnabled()
+        composeRule.onNodeWithContentDescription(SECOND_SELECTOR).performTextInput("1")
+        composeRule.onNodeWithContentDescription(SHOW_BERLIN_TIME_BUTTON)
+            .assertIsEnabled()
     }
 
     @Test
     fun checkTimeSelectorFieldsAreUpdatingForInput0() {
         val expectedValue = "0"
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
+        composeRule.onNodeWithContentDescription(TOGGLE).performClick()
         timeSelectorInputFields.forEach {
             composeRule.onNodeWithContentDescription(it).assertIsDisplayed()
             composeRule.onNodeWithContentDescription(it).performTextReplacement(expectedValue)
@@ -130,7 +143,7 @@ class BerlinClockScreenTest {
     @Test
     fun checkTimeSelectorFieldsAreUpdatingForInput1() {
         val expectedValue = "1"
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
+        composeRule.onNodeWithContentDescription(TOGGLE).performClick()
         timeSelectorInputFields.forEach {
             composeRule.onNodeWithContentDescription(it).assertIsDisplayed()
             composeRule.onNodeWithContentDescription(it).performTextReplacement(expectedValue)
@@ -142,7 +155,7 @@ class BerlinClockScreenTest {
     fun checkTimeSelectorFieldsAcceptsOnlyDigits() {
         val inputValues = listOf(",", ".", "ab")
         val digitInput = "14"
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
+        composeRule.onNodeWithContentDescription(TOGGLE).performClick()
         timeSelectorInputFields.forEach {
             composeRule.onNodeWithContentDescription(it).assertIsDisplayed()
             composeRule.onNodeWithContentDescription(it).performTextReplacement(digitInput)
@@ -159,7 +172,7 @@ class BerlinClockScreenTest {
 
     @Test
     fun checkTimeSelectorFieldsAcceptsOnlyMaxTwoDigitNumbers() {
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
+        composeRule.onNodeWithContentDescription(TOGGLE).performClick()
         timeSelectorInputFields.forEach {
             listOf("0", "00").forEach { input ->
                 composeRule.onNodeWithContentDescription(it)
@@ -175,11 +188,11 @@ class BerlinClockScreenTest {
 
     @Test
     fun checkTimeSelectorFieldMaxValues() {
-        val hourMaxValue = 23
-        val minuteMaxValue = 59
-        val secondsMaxValue = 59
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
-        TestTags.HOUR_SELECTOR.let {
+        val hourMaxValue = HOUR_MAX_VALUE
+        val minuteMaxValue = TIME_MAX_VALUE
+        val secondsMaxValue = TIME_MAX_VALUE
+        composeRule.onNodeWithContentDescription(TOGGLE).performClick()
+        HOUR_SELECTOR.let {
             (hourMaxValue..24).forEach { input ->
                 composeRule.onNodeWithContentDescription(it)
                     .performTextReplacement(input.toString())
@@ -188,7 +201,7 @@ class BerlinClockScreenTest {
             }
         }
 
-        TestTags.MINUTE_SELECTOR.let {
+        MINUTE_SELECTOR.let {
             (minuteMaxValue..60).forEach { input ->
                 composeRule.onNodeWithContentDescription(it)
                     .performTextReplacement(input.toString())
@@ -197,7 +210,7 @@ class BerlinClockScreenTest {
             }
         }
 
-        TestTags.SECOND_SELECTOR.let {
+        SECOND_SELECTOR.let {
             (secondsMaxValue..60).forEach { input ->
                 composeRule.onNodeWithContentDescription(it)
                     .performTextReplacement(input.toString())
@@ -209,8 +222,8 @@ class BerlinClockScreenTest {
 
     @Test
     fun checkTimeSelectorFieldMinValues() {
-        val minValue = 0
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
+        val minValue = TIME_MIN_VALUE
+        composeRule.onNodeWithContentDescription(TOGGLE).performClick()
         timeSelectorInputFields.forEach {
             (minValue downTo -1).forEach { input ->
                 composeRule.onNodeWithContentDescription(it)
@@ -223,7 +236,7 @@ class BerlinClockScreenTest {
 
     @Test
     fun checkTimeSelectorFieldsHandleTextClearance() {
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
+        composeRule.onNodeWithContentDescription(TOGGLE).performClick()
         timeSelectorInputFields.forEach {
             composeRule.onNodeWithContentDescription(it)
                 .performTextReplacement("0")
@@ -233,20 +246,19 @@ class BerlinClockScreenTest {
     }
 
     companion object {
-        val timeSelectorUiComponents = TestTags.let {
+        val timeSelectorUiComponents =
             listOf(
-                it.TIME_SELECTOR,
-                it.HOUR_SELECTOR,
-                it.MINUTE_SELECTOR,
-                it.SECOND_SELECTOR,
-                it.SHOW_BERLIN_TIME_BUTTON
+                TIME_SELECTOR,
+                HOUR_SELECTOR,
+                MINUTE_SELECTOR,
+                SECOND_SELECTOR,
+                SHOW_BERLIN_TIME_BUTTON
             )
-        }
 
         val timeSelectorInputFields = listOf(
-            TestTags.HOUR_SELECTOR,
-            TestTags.MINUTE_SELECTOR,
-            TestTags.SECOND_SELECTOR,
+            HOUR_SELECTOR,
+            MINUTE_SELECTOR,
+            SECOND_SELECTOR,
         )
     }
 }
