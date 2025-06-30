@@ -12,3 +12,4 @@ const val BOTTOM_MINUTE_LAMP_COUNT = 4
 const val TIME_FORMAT = "HH:mm:ss"
 const val EMPTY_STRING = ""
 const val TIME_SELECTOR_INPUT_MAX_LENGTH = 2
+const val INITIAL_NORMAL_TIME = "00:00:00"
