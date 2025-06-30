@@ -116,7 +116,7 @@ class BerlinClockScreenTest {
     }
 
     @Test
-    fun checkSTimeSelectorFieldsAreUpdatingForInput0() {
+    fun checkTimeSelectorFieldsAreUpdatingForInput0() {
         val expectedValue = "0"
         composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
         timeSelectorInputFields.forEach {
@@ -127,7 +127,7 @@ class BerlinClockScreenTest {
     }
 
     @Test
-    fun checkSTimeSelectorFieldsAreUpdatingForInput1() {
+    fun checkTimeSelectorFieldsAreUpdatingForInput1() {
         val expectedValue = "1"
         composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
         timeSelectorInputFields.forEach {
@@ -138,7 +138,7 @@ class BerlinClockScreenTest {
     }
 
     @Test
-    fun checkSTimeSelectorFieldsAcceptsOnlyDigits() {
+    fun checkTimeSelectorFieldsAcceptsOnlyDigits() {
         val inputValues = listOf(",", ".", "ab")
         val digitInput = "14"
         composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
