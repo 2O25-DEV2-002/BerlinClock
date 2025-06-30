@@ -3,13 +3,16 @@ package com.anonymous.berlinclock.presentation.berlinclock
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.anonymous.berlinclock.domain.usecase.GetBerlinClockData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.launchIn
+import javax.inject.Inject
 
-class BerlinClockViewModel(
+@HiltViewModel
+class BerlinClockViewModel @Inject constructor(
     private val getBerlinClockDataUseCase: GetBerlinClockData
 ) : ViewModel() {
 
