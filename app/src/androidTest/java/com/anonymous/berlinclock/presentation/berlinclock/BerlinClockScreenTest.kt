@@ -172,6 +172,40 @@ class BerlinClockScreenTest {
         }
     }
 
+    @Test
+    fun checkTimeSelectorFieldMaxValues() {
+        val hourMaxValue = 23
+        val minuteMaxValue = 59
+        val secondsMaxValue = 59
+        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
+        TestTags.HOUR_SELECTOR.let {
+            (hourMaxValue..24).forEach { input ->
+                composeRule.onNodeWithContentDescription(it)
+                    .performTextReplacement(input.toString())
+                composeRule.onNodeWithContentDescription(it)
+                    .assertTextEquals(hourMaxValue.toString())
+            }
+        }
+
+        TestTags.MINUTE_SELECTOR.let {
+            (minuteMaxValue..60).forEach { input ->
+                composeRule.onNodeWithContentDescription(it)
+                    .performTextReplacement(input.toString())
+                composeRule.onNodeWithContentDescription(it)
+                    .assertTextEquals(minuteMaxValue.toString())
+            }
+        }
+
+        TestTags.SECOND_SELECTOR.let {
+            (secondsMaxValue..60).forEach { input ->
+                composeRule.onNodeWithContentDescription(it)
+                    .performTextReplacement(input.toString())
+                composeRule.onNodeWithContentDescription(it)
+                    .assertTextEquals(secondsMaxValue.toString())
+            }
+        }
+    }
+
     companion object {
         val timeSelectorUiComponents = TestTags.let {
             listOf(
