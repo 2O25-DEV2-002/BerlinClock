@@ -6,11 +6,13 @@ import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsOff
 import androidx.compose.ui.test.assertIsOn
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTextReplacement
 import com.anonymous.berlinclock.MainActivity
 import com.anonymous.berlinclock.presentation.berlinclock.navgraph.BerlinClockNavGraph
 import com.anonymous.berlinclock.ui.theme.BerlinClockTheme
@@ -114,6 +116,21 @@ class BerlinClockScreenTest {
             composeRule.onNodeWithContentDescription(it.SECOND_SELECTOR).performTextInput("1")
             composeRule.onNodeWithContentDescription(TestTags.SHOW_BERLIN_TIME_BUTTON)
                 .assertIsEnabled()
+        }
+    }
+
+    @Test
+    fun checkSTimeSelectorFieldsAreUpdatingForInput0() {
+        val expectedValue = "0"
+        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
+        listOf(
+            TestTags.HOUR_SELECTOR,
+            TestTags.MINUTE_SELECTOR,
+            TestTags.SECOND_SELECTOR,
+        ).forEach {
+            composeRule.onNodeWithContentDescription(it).assertIsDisplayed()
+            composeRule.onNodeWithContentDescription(it).performTextReplacement(expectedValue)
+            composeRule.onNodeWithContentDescription(it).assertTextEquals(expectedValue)
         }
     }
 
