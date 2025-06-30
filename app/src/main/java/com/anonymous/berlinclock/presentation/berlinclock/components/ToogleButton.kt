@@ -21,7 +21,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 
 @Composable
-fun ToggleButton() {
+fun ToggleButton(
+    isToggleOn: (Boolean) -> Unit
+) {
     Row(
         modifier = Modifier
             .padding(16.dp),
@@ -38,7 +40,10 @@ fun ToggleButton() {
 
         Switch(
             checked = isChecked,
-            onCheckedChange = { isChecked = it },
+            onCheckedChange = {
+                isChecked = it
+                isToggleOn(it)
+            },
             modifier = Modifier
                 .padding(16.dp)
                 .semantics { contentDescription = TestTags.TOGGLE }
