@@ -206,6 +206,20 @@ class BerlinClockScreenTest {
         }
     }
 
+    @Test
+    fun checkTimeSelectorFieldMinValues() {
+        val minValue = 0
+        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
+        timeSelectorInputFields.forEach {
+            (minValue downTo -1).forEach { input ->
+                composeRule.onNodeWithContentDescription(it)
+                    .performTextReplacement(input.toString())
+                composeRule.onNodeWithContentDescription(it)
+                    .assertTextEquals(minValue.toString())
+            }
+        }
+    }
+
     companion object {
         val timeSelectorUiComponents = TestTags.let {
             listOf(
