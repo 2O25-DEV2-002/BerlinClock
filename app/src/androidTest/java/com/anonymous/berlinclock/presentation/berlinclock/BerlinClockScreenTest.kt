@@ -72,15 +72,6 @@ class BerlinClockScreenTest {
 
     @Test
     fun validateTimeSelectorIsDisplayedWhenAutomaticClockIsOff() {
-        val timeSelectorUiComponents = TestTags.let {
-            listOf(
-                it.TIME_SELECTOR,
-                it.HOUR_SELECTOR,
-                it.MINUTE_SELECTOR,
-                it.SECOND_SELECTOR,
-                it.SHOW_BERLIN_TIME_BUTTON
-            )
-        }
         composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
         composeRule.onNodeWithContentDescription(TestTags.TOGGLE).assertIsOff()
         timeSelectorUiComponents.forEach {
@@ -89,7 +80,14 @@ class BerlinClockScreenTest {
     }
 
     @Test
-    fun validateTimeSelectorIsHiddenInitially() {
+    fun validateTimeSelectorIsHiddenAndAutomaticToggleIsOnInitially() {
+        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).assertIsOn()
+        timeSelectorUiComponents.forEach {
+            composeRule.onNodeWithContentDescription(it).assertDoesNotExist()
+        }
+    }
+
+    companion object {
         val timeSelectorUiComponents = TestTags.let {
             listOf(
                 it.TIME_SELECTOR,
@@ -98,9 +96,6 @@ class BerlinClockScreenTest {
                 it.SECOND_SELECTOR,
                 it.SHOW_BERLIN_TIME_BUTTON
             )
-        }
-        timeSelectorUiComponents.forEach {
-            composeRule.onNodeWithContentDescription(it).assertDoesNotExist()
         }
     }
 }
