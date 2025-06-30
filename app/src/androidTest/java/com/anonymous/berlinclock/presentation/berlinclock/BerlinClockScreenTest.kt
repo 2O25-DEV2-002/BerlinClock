@@ -97,7 +97,7 @@ class BerlinClockScreenTest {
     }
 
     @Test
-    fun validateAllLampsAreOffWithWhiteBgColorForTheManualInputAtMidnight() {
+    fun validateAllLampsAreOffWithWhiteBgColorForTheManualInput() {
         //Given
         val inputHour = "00"
         val inputMin = "00"
@@ -108,40 +108,32 @@ class BerlinClockScreenTest {
         val bottomHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
         val topMinLamps = MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF }
         val bottomMinLamps = MutableList(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.OFF }
-        //When
+
         composeRule.onNodeWithContentDescription(TOGGLE).performClick()
         composeRule.onNodeWithContentDescription(HOUR_SELECTOR).performTextInput(inputHour)
         composeRule.onNodeWithContentDescription(MINUTE_SELECTOR).performTextInput(inputMin)
         composeRule.onNodeWithContentDescription(SECOND_SELECTOR).performTextInput(inputSec)
         composeRule.onNodeWithContentDescription(SHOW_BERLIN_TIME_BUTTON).performClick()
-        //Then
+
         composeRule.onNodeWithTag(NORMAL_TIME).assertTextEquals(timeString)
         composeRule.onNodeWithTag("${SECOND_LAMP}-${secondLamp.name}-${secondLamp.color}")
             .assertIsDisplayed()
-        repeat(HOUR_LAMP_COUNT) {
-            topHourLamps.forEach { lamp ->
-                composeRule.onNodeWithTag("${TOP_HOUR_LAMP}${it}-${lamp.name}-${lamp.color}")
-                    .assertIsDisplayed()
-            }
-            bottomHourLamps.forEach { lamp ->
-                composeRule.onNodeWithTag("${BOTTOM_HOUR_LAMP}$it-${lamp.name}-${lamp.color}")
-                    .assertIsDisplayed()
-            }
 
-
+        topHourLamps.forEachIndexed { i, lamp ->
+            composeRule.onNodeWithTag("${TOP_HOUR_LAMP}${i}-${lamp.name}-${lamp.color}")
+                .assertIsDisplayed()
         }
-        repeat(TOP_MINUTE_LAMP_COUNT) {
-            topMinLamps.forEach { lamp ->
-                composeRule.onNodeWithTag("${TOP_MIN_LAMP}$it-${lamp.name}-${lamp.color}")
-                    .assertIsDisplayed()
-            }
-
+        bottomHourLamps.forEachIndexed { i, lamp ->
+            composeRule.onNodeWithTag("${BOTTOM_HOUR_LAMP}${i}-${lamp.name}-${lamp.color}")
+                .assertIsDisplayed()
         }
-        repeat(BOTTOM_MINUTE_LAMP_COUNT) {
-            bottomMinLamps.forEach { lamp ->
-                composeRule.onNodeWithTag("${BOTTOM_MIN_LAMP}$it-${lamp.name}-${lamp.color}")
-                    .assertIsDisplayed()
-            }
+        topMinLamps.forEachIndexed { i, lamp ->
+            composeRule.onNodeWithTag("${TOP_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
+                .assertIsDisplayed()
+        }
+        bottomMinLamps.forEachIndexed { i, lamp ->
+            composeRule.onNodeWithTag("${BOTTOM_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
+                .assertIsDisplayed()
         }
     }
 
