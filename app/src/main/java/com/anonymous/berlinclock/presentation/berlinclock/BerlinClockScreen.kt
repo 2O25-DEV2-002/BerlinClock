@@ -85,7 +85,7 @@ fun BerlinClockScreen(
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier.padding(horizontal = 8.dp)
                 ) {
-                    ToggleButton() { isToggleOn ->
+                    ToggleButton { isToggleOn ->
                         showTimeSelector = !isToggleOn
                     }
                     if (showTimeSelector) {
@@ -131,6 +131,7 @@ fun TimeSelector() {
             OutlinedTextField(
                 value = selectedHour,
                 onValueChange = {
+                    selectedHour = "1"
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Number
@@ -148,6 +149,7 @@ fun TimeSelector() {
             OutlinedTextField(
                 value = selectedMinute,
                 onValueChange = {
+                    selectedMinute = "1"
                 },
                 placeholder = { Text(text = stringResource(id = R.string.minute)) },
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -165,6 +167,7 @@ fun TimeSelector() {
             OutlinedTextField(
                 value = selectedSecond,
                 onValueChange = {
+                    selectedSecond = "1"
                 },
                 placeholder = { Text(text = stringResource(id = R.string.second)) },
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -180,7 +183,6 @@ fun TimeSelector() {
             )
 
         }
-
         Spacer(modifier = Modifier.height(12.dp))
         Button(
             onClick = {
@@ -188,7 +190,10 @@ fun TimeSelector() {
             modifier = Modifier
                 .semantics {
                     contentDescription = TestTags.SHOW_BERLIN_TIME_BUTTON
-                }
+                },
+            enabled = selectedHour.isNotEmpty() &&
+                    selectedMinute.isNotEmpty() &&
+                    selectedSecond.isNotEmpty()
         ) {
             Text(stringResource(R.string.show_berlin_time))
         }
