@@ -44,7 +44,7 @@ fun SecondsLamp() {
             .size(80.dp)
             .clip(CircleShape)
             .border(2.dp, Color.DarkGray, CircleShape)
-            .testTag(TestTags.SECOND_LAMP)
+            .testTag("${TestTags.SECOND_LAMP}-OFF-#FFFFFF")
             .background(Color.White)
     )
 }
@@ -68,7 +68,7 @@ fun TopHourLamps(modifier: Modifier, lamps: TopHourLamps) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Lamp(
-                    tag = "${TestTags.TOP_HOUR_LAMP}$it"
+                    tag = "${TestTags.TOP_HOUR_LAMP}$it-OFF-#FFFFFF"
                 )
             }
 
@@ -89,7 +89,7 @@ fun BottomHourLamps(modifier: Modifier, lamps: BottomHourLamps) {
             ) {
 
                 Lamp(
-                    tag = "${TestTags.BOTTOM_HOUR_LAMP}$it"
+                    tag = "${TestTags.BOTTOM_HOUR_LAMP}$it-OFF-#FFFFFF"
                 )
             }
         }
@@ -115,7 +115,7 @@ fun TopMinuteLamps(lamps: TopMinuteLamps) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Lamp(
-                    tag = "${TestTags.TOP_MIN_LAMP}$it"
+                    tag = "${TestTags.TOP_MIN_LAMP}${it}-OFF-#FFFFFF"
                 )
             }
         }
@@ -135,7 +135,7 @@ fun BottomMinuteLamps(lamps: BottomMinuteLamps) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Lamp(
-                    tag = "${TestTags.BOTTOM_MIN_LAMP}$it"
+                    tag = "${TestTags.BOTTOM_MIN_LAMP}$it-OFF-#FFFFFF"
                 )
             }
         }
