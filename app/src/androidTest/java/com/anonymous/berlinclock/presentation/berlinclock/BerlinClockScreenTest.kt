@@ -156,6 +156,22 @@ class BerlinClockScreenTest {
         }
     }
 
+    @Test
+    fun checkTimeSelectorFieldsAcceptsOnlyMaxTwoDigitNumbers() {
+        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
+        timeSelectorInputFields.forEach {
+            listOf("0", "00").forEach { input ->
+                composeRule.onNodeWithContentDescription(it)
+                    .performTextReplacement(input.toString())
+                composeRule.onNodeWithContentDescription(it).assertTextEquals(input)
+            }
+        }
+        timeSelectorInputFields.forEach {
+            composeRule.onNodeWithContentDescription(it).performTextReplacement("000")
+            composeRule.onNodeWithContentDescription(it).assertTextEquals("00")
+        }
+    }
+
     companion object {
         val timeSelectorUiComponents = TestTags.let {
             listOf(
