@@ -41,6 +41,12 @@ import com.anonymous.berlinclock.util.TestTags.TOP_HOUR_LAMP
 import com.anonymous.berlinclock.util.TestTags.TOP_MIN_LAMP
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import io.mockk.every
+import io.mockk.mockkStatic
+import io.mockk.unmockkStatic
+import org.joda.time.DateTime
+import org.joda.time.DateTimeUtils
+import org.joda.time.format.DateTimeFormat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -81,6 +87,10 @@ class BerlinClockScreenTest {
     @Test
     fun validateBerlinClockIsVisibleInitially() {
         val initialLampColor = "OFF-#FFFFFF"
+
+        composeRule.onNodeWithContentDescription(TOGGLE).performClick()
+        composeRule.onNodeWithContentDescription(TOGGLE).assertIsOff()
+
         composeRule.onNodeWithTag(NORMAL_TIME).assertIsDisplayed()
         composeRule.onNodeWithTag("$SECOND_LAMP-$initialLampColor").assertIsDisplayed()
 
@@ -332,6 +342,80 @@ class BerlinClockScreenTest {
         }
 
         bottomMinLamps.forEachIndexed { i, lamp ->
+            composeRule.onNodeWithTag("${BOTTOM_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
+                .assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun validateAutomaticClockStartAndStopScenario() {
+        val timeString = "01:20:29" // in hh:mm:ss format
+        val millis = 1706212229312
+        val secondLamp = LampColour.OFF
+        val topHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
+        val bottomHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
+        bottomHourLamps[0] = LampColour.RED
+        val topMinLamps = MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF }
+        topMinLamps[0] = LampColour.YELLOW
+        topMinLamps[1] = LampColour.YELLOW
+        topMinLamps[2] = LampColour.RED
+        topMinLamps[3] = LampColour.YELLOW
+        val bottomMinLamps = MutableList(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.OFF }
+        bottomMinLamps[0] = LampColour.OFF
+        DateTimeUtils.setCurrentMillisFixed(millis)
+        mockkStatic(DateTimeFormat::class)
+        every { DateTimeFormat.forPattern(any()).print(DateTime()) } returns timeString
+        composeRule.onNodeWithContentDescription(TOGGLE).assertIsOn()
+
+        composeRule.onNodeWithTag("${SECOND_LAMP}-${secondLamp.name}-${secondLamp.color}")
+            .assertIsDisplayed()
+        topHourLamps.forEachIndexed { i, lamp ->
+            composeRule.onNodeWithTag("${TOP_HOUR_LAMP}${i}-${lamp.name}-${lamp.color}")
+                .assertIsDisplayed()
+        }
+        bottomHourLamps.forEachIndexed { i, lamp ->
+            composeRule.onNodeWithTag("${BOTTOM_HOUR_LAMP}$i-${lamp.name}-${lamp.color}")
+                .assertIsDisplayed()
+        }
+        topMinLamps.forEachIndexed { i, lamp ->
+            composeRule.onNodeWithTag("${TOP_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
+                .assertIsDisplayed()
+        }
+
+        bottomMinLamps.forEachIndexed { i, lamp ->
+            composeRule.onNodeWithTag("${BOTTOM_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
+                .assertIsDisplayed()
+        }
+
+        val timeStringStop = "00:00:01"
+        val secondLampStop = LampColour.OFF
+        val topHourLampsStop = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
+        val bottomHourLampsStop = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
+        val topMinLampsStop = MutableList(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF }
+        val bottomMinLampsStop = MutableList(BOTTOM_MINUTE_LAMP_COUNT) { LampColour.OFF }
+
+        composeRule.onNodeWithContentDescription(TOGGLE).performClick()
+        composeRule.onNodeWithContentDescription(TOGGLE).assertIsOff()
+        unmockkStatic(DateTimeFormat::class)
+
+        composeRule.onNodeWithTag(NORMAL_TIME).assertTextEquals(timeStringStop)
+        composeRule.onNodeWithTag("${SECOND_LAMP}-${secondLampStop.name}-${secondLampStop.color}")
+            .assertIsDisplayed()
+        topHourLampsStop.forEachIndexed { i, lamp ->
+            composeRule.onNodeWithTag("${TOP_HOUR_LAMP}${i}-${lamp.name}-${lamp.color}")
+                .assertIsDisplayed()
+        }
+        bottomHourLampsStop.forEachIndexed { i, lamp ->
+            composeRule.onNodeWithTag("${BOTTOM_HOUR_LAMP}${i}-${lamp.name}-${lamp.color}")
+                .assertIsDisplayed()
+        }
+
+        topMinLampsStop.forEachIndexed { i, lamp ->
+            composeRule.onNodeWithTag("${TOP_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
+                .assertIsDisplayed()
+        }
+
+        bottomMinLampsStop.forEachIndexed { i, lamp ->
             composeRule.onNodeWithTag("${BOTTOM_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
                 .assertIsDisplayed()
         }
