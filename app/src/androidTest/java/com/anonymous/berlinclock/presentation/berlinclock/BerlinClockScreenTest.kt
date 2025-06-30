@@ -147,6 +147,30 @@ class BerlinClockScreenTest {
         }
     }
 
+    @Test
+    fun checkSTimeSelectorFieldsAcceptsOnlyDigits() {
+        val inputValues = listOf(",", ".", "ab")
+        val digitInput = "14"
+        val timeSelectorInputFields = listOf(
+            TestTags.HOUR_SELECTOR,
+            TestTags.MINUTE_SELECTOR,
+            TestTags.SECOND_SELECTOR,
+        )
+        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).performClick()
+        timeSelectorInputFields.forEach {
+            composeRule.onNodeWithContentDescription(it).assertIsDisplayed()
+            composeRule.onNodeWithContentDescription(it).performTextReplacement(digitInput)
+            composeRule.onNodeWithContentDescription(it).assertTextEquals(digitInput)
+        }
+        timeSelectorInputFields.forEach {
+            inputValues.forEach { input ->
+                composeRule.onNodeWithContentDescription(it).assertIsDisplayed()
+                composeRule.onNodeWithContentDescription(it).performTextReplacement(input)
+                composeRule.onNodeWithContentDescription(it).assertTextEquals(digitInput)
+            }
+        }
+    }
+
     companion object {
         val timeSelectorUiComponents = TestTags.let {
             listOf(

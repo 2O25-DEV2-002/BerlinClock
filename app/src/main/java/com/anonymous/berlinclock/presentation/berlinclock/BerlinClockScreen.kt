@@ -44,6 +44,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.core.text.isDigitsOnly
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -131,7 +132,9 @@ fun TimeSelector() {
             OutlinedTextField(
                 value = selectedHour,
                 onValueChange = {
-                    selectedHour = it
+                    if (it.isDigitsOnly()) {
+                        selectedHour = it
+                    }
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Number
@@ -149,7 +152,9 @@ fun TimeSelector() {
             OutlinedTextField(
                 value = selectedMinute,
                 onValueChange = {
-                    selectedMinute = it
+                    if (it.isDigitsOnly()) {
+                        selectedMinute = it
+                    }
                 },
                 placeholder = { Text(text = stringResource(id = R.string.minute)) },
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -167,7 +172,9 @@ fun TimeSelector() {
             OutlinedTextField(
                 value = selectedSecond,
                 onValueChange = {
-                    selectedSecond = it
+                    if (it.isDigitsOnly()) {
+                        selectedSecond = it
+                    }
                 },
                 placeholder = { Text(text = stringResource(id = R.string.second)) },
                 keyboardOptions = KeyboardOptions.Default.copy(
