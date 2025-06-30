@@ -85,7 +85,7 @@ fun BerlinClockScreen(
                             onEvent(ClockEvent.UpdateClock(it))
                         }
                     }
-                    NormalTime()
+                    NormalTime(clockState.normalTime)
                     BerlinClock(clockState = clockState)
                 }
             }
@@ -94,13 +94,13 @@ fun BerlinClockScreen(
 }
 
 @Composable
-fun NormalTime() {
+fun NormalTime(time: String) {
     Text(
         modifier = Modifier
             .padding(15.dp)
             .testTag(NORMAL_TIME),
         style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
-        text = "00:00:01",
+        text = time,
         textAlign = TextAlign.Center
     )
 }
