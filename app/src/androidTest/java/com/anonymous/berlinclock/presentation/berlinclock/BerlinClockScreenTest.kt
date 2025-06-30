@@ -56,7 +56,6 @@ class BerlinClockScreenTest {
 
     @Test
     fun validateBerlinClockIsVisibleInitially() {
-        composeRule.onNodeWithContentDescription(TestTags.TOGGLE).assertIsOn()
         composeRule.onNodeWithTag(TestTags.NORMAL_TIME).assertIsDisplayed()
         composeRule.onNodeWithTag(TestTags.SECOND_LAMP).assertIsDisplayed()
         repeat(HOUR_LAMP_COUNT) {
@@ -86,6 +85,22 @@ class BerlinClockScreenTest {
         composeRule.onNodeWithContentDescription(TestTags.TOGGLE).assertIsOff()
         timeSelectorUiComponents.forEach {
             composeRule.onNodeWithContentDescription(it).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun validateTimeSelectorIsHiddenInitially() {
+        val timeSelectorUiComponents = TestTags.let {
+            listOf(
+                it.TIME_SELECTOR,
+                it.HOUR_SELECTOR,
+                it.MINUTE_SELECTOR,
+                it.SECOND_SELECTOR,
+                it.SHOW_BERLIN_TIME_BUTTON
+            )
+        }
+        timeSelectorUiComponents.forEach {
+            composeRule.onNodeWithContentDescription(it).assertDoesNotExist()
         }
     }
 }
