@@ -53,7 +53,7 @@ class BerlinClockScreenTest {
     }
 
     @Test
-    fun validateAutomaticBerlinClockIsVisibleWhenToggleIsOn() {
+    fun validateBerlinClockIsVisibleInitially() {
         composeRule.onNodeWithContentDescription(TestTags.TOGGLE).assertIsOn()
         composeRule.onNodeWithTag(TestTags.NORMAL_TIME).assertIsDisplayed()
         composeRule.onNodeWithTag(TestTags.SECOND_LAMP).assertIsDisplayed()
