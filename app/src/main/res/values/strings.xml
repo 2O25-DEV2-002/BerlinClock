@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BerlinClock</string>
+    <string name="automatic_clock">Automatic clock</string>
 </resources>
