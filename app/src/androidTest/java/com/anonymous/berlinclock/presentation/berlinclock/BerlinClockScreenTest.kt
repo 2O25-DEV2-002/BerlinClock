@@ -23,6 +23,7 @@ import com.anonymous.berlinclock.util.EMPTY_STRING
 import com.anonymous.berlinclock.util.HOUR_LAMP_COUNT
 import com.anonymous.berlinclock.util.HOUR_MAX_VALUE
 import com.anonymous.berlinclock.util.LampColour
+import com.anonymous.berlinclock.util.TIME_FORMAT
 import com.anonymous.berlinclock.util.TIME_MAX_VALUE
 import com.anonymous.berlinclock.util.TIME_MIN_VALUE
 import com.anonymous.berlinclock.util.TOP_MINUTE_LAMP_COUNT
@@ -40,6 +41,7 @@ import com.anonymous.berlinclock.util.TestTags.TOP_BAR
 import com.anonymous.berlinclock.util.TestTags.TOP_HOUR_LAMP
 import com.anonymous.berlinclock.util.TestTags.TOP_MIN_LAMP
 import com.anonymous.berlinclock.util.getLampTag
+import com.anonymous.berlinclock.util.getTimeMillis
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.every
@@ -306,7 +308,7 @@ class BerlinClockScreenTest {
     @Test
     fun validateAutomaticClockStartAndStopScenario() {
         val timeString = "01:20:29"
-        val millis = 1706212229312
+        val millis = timeString.getTimeMillis(TIME_FORMAT)
         val secondLamp = LampColour.OFF
         val topHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
         val bottomHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
@@ -354,7 +356,12 @@ class BerlinClockScreenTest {
         tagPrefix: String
     ) {
         lamps.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithContentDescription("${tagPrefix}${i}".getLampTag(lamp.name, lamp.color))
+            composeRule.onNodeWithContentDescription(
+                "${tagPrefix}${i}".getLampTag(
+                    lamp.name,
+                    lamp.color
+                )
+            )
                 .assertIsDisplayed()
         }
     }
@@ -366,7 +373,12 @@ class BerlinClockScreenTest {
         lampColor: String = "#FFFFFF"
     ) {
         repeat(count) {
-            composeRule.onNodeWithContentDescription("${tagPrefix}$it".getLampTag(lampName, lampColor))
+            composeRule.onNodeWithContentDescription(
+                "${tagPrefix}$it".getLampTag(
+                    lampName,
+                    lampColor
+                )
+            )
                 .assertIsDisplayed()
         }
     }
@@ -376,7 +388,8 @@ class BerlinClockScreenTest {
         lampName: String,
         lampColor: String
     ) {
-        composeRule.onNodeWithContentDescription(tagPrefix.getLampTag(lampName, lampColor)).assertIsDisplayed()
+        composeRule.onNodeWithContentDescription(tagPrefix.getLampTag(lampName, lampColor))
+            .assertIsDisplayed()
     }
 
     private fun callShowBerlinTimeManually(

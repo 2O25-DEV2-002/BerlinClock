@@ -8,9 +8,11 @@ import com.anonymous.berlinclock.util.HOUR_MAX_VALUE
 import com.anonymous.berlinclock.util.LampColour
 import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_23
 import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_59
+import com.anonymous.berlinclock.util.TIME_FORMAT
 import com.anonymous.berlinclock.util.TIME_MAX_VALUE
 import com.anonymous.berlinclock.util.TIME_MIN_VALUE
 import com.anonymous.berlinclock.util.TOP_MINUTE_LAMP_COUNT
+import com.anonymous.berlinclock.util.getTimeMillis
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockkStatic
@@ -423,7 +425,7 @@ class GetBerlinClockDataTest {
     @Test
     fun `returns the berlin time corresponding to the system time automatically`() = runTest {
         val timeString = "01:20:29"
-        val millis = 1706212229312
+        val millis = timeString.getTimeMillis(TIME_FORMAT)
         val topHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
         val bottomHourLamps = MutableList(HOUR_LAMP_COUNT) { LampColour.OFF }
         bottomHourLamps[0] = LampColour.RED
