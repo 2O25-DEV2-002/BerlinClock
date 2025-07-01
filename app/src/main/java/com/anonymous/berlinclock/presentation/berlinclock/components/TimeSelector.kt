@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.anonymous.berlinclock.R
+import com.anonymous.berlinclock.util.TIME_DELIMITER
 import com.anonymous.berlinclock.util.TestTags
 
 @Composable
@@ -110,7 +111,7 @@ fun TimeSelector(
         Spacer(modifier = Modifier.height(12.dp))
         Button(
             onClick = {
-                showBerlinTime("$selectedHour:$selectedMinute:$selectedSecond")
+                showBerlinTime("$selectedHour$TIME_DELIMITER$selectedMinute$TIME_DELIMITER$selectedSecond")
             },
             modifier = Modifier
                 .semantics {

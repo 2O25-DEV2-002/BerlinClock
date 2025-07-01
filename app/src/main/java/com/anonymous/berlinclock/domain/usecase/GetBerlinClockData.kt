@@ -10,6 +10,7 @@ import com.anonymous.berlinclock.util.LampColour
 import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_23
 import com.anonymous.berlinclock.util.MESSAGE_INPUT_BETWEEN_0_AND_59
 import com.anonymous.berlinclock.util.SecondLamp
+import com.anonymous.berlinclock.util.TIME_DELIMITER
 import com.anonymous.berlinclock.util.TIME_FORMAT
 import com.anonymous.berlinclock.util.TIME_MAX_VALUE
 import com.anonymous.berlinclock.util.TIME_MIN_VALUE
@@ -40,7 +41,7 @@ class GetBerlinClockData {
     }
 
     operator fun invoke(time: String): BerlinClock {
-        val (hour, min, sec) = time.splitIntoIntParts(":")
+        val (hour, min, sec) = time.splitIntoIntParts(TIME_DELIMITER)
         return BerlinClock(
             secondLamp = getSeconds(sec),
             topHourLamps = getTopHours(hour),
