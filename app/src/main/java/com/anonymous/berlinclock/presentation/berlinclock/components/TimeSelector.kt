@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.anonymous.berlinclock.R
 import com.anonymous.berlinclock.util.TIME_DELIMITER
+import com.anonymous.berlinclock.util.TIME_SELECTOR_INPUT_MAX_LENGTH
 import com.anonymous.berlinclock.util.TestTags
 
 @Composable
@@ -53,7 +54,7 @@ fun TimeSelector(
             OutlinedTextField(
                 value = selectedHour,
                 onValueChange = {
-                    if (it.isEmpty() || it.isDigitsOnly() && it.length <= 2 && it.toInt() in 0..23) {
+                    if (it.isEmpty() || it.isDigitsOnly() && it.length <= TIME_SELECTOR_INPUT_MAX_LENGTH && it.toInt() in 0..23) {
                         selectedHour = it
                     }
                 },
@@ -73,7 +74,7 @@ fun TimeSelector(
             OutlinedTextField(
                 value = selectedMinute,
                 onValueChange = {
-                    if (it.isEmpty() || it.isDigitsOnly() && it.length <= 2 && it.toInt() in 0..59) {
+                    if (it.isEmpty() || it.isDigitsOnly() && it.length <= TIME_SELECTOR_INPUT_MAX_LENGTH && it.toInt() in 0..59) {
                         selectedMinute = it
                     }
                 },
@@ -93,7 +94,7 @@ fun TimeSelector(
             OutlinedTextField(
                 value = selectedSecond,
                 onValueChange = {
-                    if (it.isEmpty() || it.isDigitsOnly() && it.length <= 2 && it.toInt() in 0..59) {
+                    if (it.isEmpty() || it.isDigitsOnly() && it.length <= TIME_SELECTOR_INPUT_MAX_LENGTH && it.toInt() in 0..59) {
                         selectedSecond = it
                     }
                 },
