@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.anonymous.berlinclock.util.LampColour
 import androidx.core.graphics.toColorInt
@@ -26,13 +28,15 @@ fun Lamp(
     Column(modifier = Modifier.padding(2.dp)) {
         Box(
             modifier = Modifier
-                .testTag(tag)
                 .padding(horizontal = 0.dp, vertical = 5.dp)
                 .fillMaxWidth()
                 .size(size.dp)
                 .border(2.dp, Color.DarkGray, RoundedCornerShape(8.dp))
                 .clip(RoundedCornerShape(8.dp))
                 .background(Color(lamp.color.toColorInt()))
+                .semantics {
+                    contentDescription = tag
+                }
         )
     }
 }

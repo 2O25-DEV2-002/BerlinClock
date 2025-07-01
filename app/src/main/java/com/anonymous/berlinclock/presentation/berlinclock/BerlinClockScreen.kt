@@ -34,6 +34,8 @@ import com.anonymous.berlinclock.presentation.berlinclock.components.BerlinClock
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import com.anonymous.berlinclock.presentation.berlinclock.components.TimeSelector
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,7 +105,9 @@ fun NormalTime(time: String) {
     Text(
         modifier = Modifier
             .padding(15.dp)
-            .testTag(NORMAL_TIME),
+            .semantics {
+                contentDescription = NORMAL_TIME
+            },
         style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
         text = time,
         textAlign = TextAlign.Center
