@@ -39,6 +39,7 @@ import com.anonymous.berlinclock.util.TestTags.TOGGLE
 import com.anonymous.berlinclock.util.TestTags.TOP_BAR
 import com.anonymous.berlinclock.util.TestTags.TOP_HOUR_LAMP
 import com.anonymous.berlinclock.util.TestTags.TOP_MIN_LAMP
+import com.anonymous.berlinclock.util.getLampTag
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.every
@@ -86,25 +87,18 @@ class BerlinClockScreenTest {
 
     @Test
     fun validateBerlinClockIsVisibleInitially() {
-        val initialLampColor = "OFF-#FFFFFF"
+        val lampName = "OFF"
+        val lampColor = "#FFFFFF"
 
         composeRule.onNodeWithContentDescription(TOGGLE).performClick()
         composeRule.onNodeWithContentDescription(TOGGLE).assertIsOff()
 
         composeRule.onNodeWithTag(NORMAL_TIME).assertIsDisplayed()
-        composeRule.onNodeWithTag("$SECOND_LAMP-$initialLampColor").assertIsDisplayed()
-
-        repeat(HOUR_LAMP_COUNT) {
-            composeRule.onNodeWithTag("${TOP_HOUR_LAMP}$it-$initialLampColor").assertIsDisplayed()
-            composeRule.onNodeWithTag("${BOTTOM_HOUR_LAMP}$it-$initialLampColor")
-                .assertIsDisplayed()
-        }
-        repeat(TOP_MINUTE_LAMP_COUNT) {
-            composeRule.onNodeWithTag("${TOP_MIN_LAMP}$it-$initialLampColor").assertIsDisplayed()
-        }
-        repeat(BOTTOM_MINUTE_LAMP_COUNT) {
-            composeRule.onNodeWithTag("${BOTTOM_MIN_LAMP}$it-$initialLampColor").assertIsDisplayed()
-        }
+        checkLampDetails(lampName = lampName, lampColor = lampColor)
+        checkLampDetails(HOUR_LAMP_COUNT, TOP_HOUR_LAMP)
+        checkLampDetails(HOUR_LAMP_COUNT, BOTTOM_HOUR_LAMP)
+        checkLampDetails(TOP_MINUTE_LAMP_COUNT, TOP_MIN_LAMP)
+        checkLampDetails(BOTTOM_MINUTE_LAMP_COUNT, BOTTOM_MIN_LAMP)
     }
 
     @Test
@@ -127,25 +121,11 @@ class BerlinClockScreenTest {
         composeRule.onNodeWithContentDescription(SHOW_BERLIN_TIME_BUTTON).performClick()
 
         composeRule.onNodeWithTag(NORMAL_TIME).assertTextEquals(timeString)
-        composeRule.onNodeWithTag("${SECOND_LAMP}-${secondLamp.name}-${secondLamp.color}")
-            .assertIsDisplayed()
-
-        topHourLamps.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${TOP_HOUR_LAMP}${i}-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
-        bottomHourLamps.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${BOTTOM_HOUR_LAMP}${i}-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
-        topMinLamps.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${TOP_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
-        bottomMinLamps.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${BOTTOM_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
+        checkLampDetails(lampName = secondLamp.name, lampColor = secondLamp.color)
+                checkLampDetails(topHourLamps, TOP_HOUR_LAMP)
+        checkLampDetails(bottomHourLamps, BOTTOM_HOUR_LAMP)
+        checkLampDetails(topMinLamps, TOP_MIN_LAMP)
+        checkLampDetails(bottomMinLamps, BOTTOM_MIN_LAMP)
     }
 
     @Test
@@ -326,25 +306,10 @@ class BerlinClockScreenTest {
         Espresso.closeSoftKeyboard()
 
         composeRule.onNodeWithTag(NORMAL_TIME).assertTextEquals(timeString)
-        composeRule.onNodeWithTag("${SECOND_LAMP}-${secondLamp.name}-${secondLamp.color}")
-            .assertIsDisplayed()
-        topHourLamps.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${TOP_HOUR_LAMP}${i}-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
-        bottomHourLamps.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${BOTTOM_HOUR_LAMP}$i-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
-        topMinLamps.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${TOP_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
-
-        bottomMinLamps.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${BOTTOM_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
+        checkLampDetails(lampName = secondLamp.name, lampColor = secondLamp.color)
+        checkLampDetails(bottomHourLamps, BOTTOM_HOUR_LAMP)
+        checkLampDetails(topMinLamps, TOP_MIN_LAMP)
+        checkLampDetails(bottomMinLamps, BOTTOM_MIN_LAMP)
     }
 
     @Test
@@ -367,25 +332,12 @@ class BerlinClockScreenTest {
         every { DateTimeFormat.forPattern(any()).print(DateTime()) } returns timeString
         composeRule.onNodeWithContentDescription(TOGGLE).assertIsOn()
 
-        composeRule.onNodeWithTag("${SECOND_LAMP}-${secondLamp.name}-${secondLamp.color}")
-            .assertIsDisplayed()
-        topHourLamps.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${TOP_HOUR_LAMP}${i}-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
-        bottomHourLamps.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${BOTTOM_HOUR_LAMP}$i-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
-        topMinLamps.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${TOP_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
-
-        bottomMinLamps.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${BOTTOM_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
+        composeRule.onNodeWithTag(NORMAL_TIME).assertTextEquals(timeString)
+        checkLampDetails(lampName = secondLamp.name, lampColor = secondLamp.color)
+        checkLampDetails(topHourLamps, TOP_HOUR_LAMP)
+        checkLampDetails(bottomHourLamps, BOTTOM_HOUR_LAMP)
+        checkLampDetails(topMinLamps, TOP_MIN_LAMP)
+        checkLampDetails(bottomMinLamps, BOTTOM_MIN_LAMP)
 
         val timeStringStop = "00:00:01"
         val secondLampStop = LampColour.OFF
@@ -399,26 +351,41 @@ class BerlinClockScreenTest {
         unmockkStatic(DateTimeFormat::class)
 
         composeRule.onNodeWithTag(NORMAL_TIME).assertTextEquals(timeStringStop)
-        composeRule.onNodeWithTag("${SECOND_LAMP}-${secondLampStop.name}-${secondLampStop.color}")
-            .assertIsDisplayed()
-        topHourLampsStop.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${TOP_HOUR_LAMP}${i}-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
-        bottomHourLampsStop.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${BOTTOM_HOUR_LAMP}${i}-${lamp.name}-${lamp.color}")
-                .assertIsDisplayed()
-        }
+        checkLampDetails(lampName = secondLampStop.name, lampColor = secondLampStop.color)
+        checkLampDetails(topHourLampsStop, TOP_HOUR_LAMP)
+        checkLampDetails(bottomHourLampsStop, BOTTOM_HOUR_LAMP)
+        checkLampDetails(topMinLampsStop, TOP_MIN_LAMP)
+        checkLampDetails(bottomMinLampsStop, BOTTOM_MIN_LAMP)
+    }
 
-        topMinLampsStop.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${TOP_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
+    private fun checkLampDetails(
+        lamps: MutableList<LampColour>,
+        tagPrefix: String
+    ) {
+        lamps.forEachIndexed { i, lamp ->
+            composeRule.onNodeWithTag("${tagPrefix}${i}".getLampTag(lamp.name, lamp.color))
                 .assertIsDisplayed()
         }
+    }
 
-        bottomMinLampsStop.forEachIndexed { i, lamp ->
-            composeRule.onNodeWithTag("${BOTTOM_MIN_LAMP}$i-${lamp.name}-${lamp.color}")
+    private fun checkLampDetails(
+        count: Int,
+        tagPrefix: String,
+        lampName: String = "OFF",
+        lampColor: String = "#FFFFFF"
+    ) {
+        repeat(count) {
+            composeRule.onNodeWithTag("${tagPrefix}$it".getLampTag(lampName, lampColor))
                 .assertIsDisplayed()
         }
+    }
+
+    private fun checkLampDetails(
+        tagPrefix: String = SECOND_LAMP,
+        lampName: String,
+        lampColor: String
+    ) {
+        composeRule.onNodeWithTag(tagPrefix.getLampTag(lampName, lampColor)).assertIsDisplayed()
     }
 
     companion object {
