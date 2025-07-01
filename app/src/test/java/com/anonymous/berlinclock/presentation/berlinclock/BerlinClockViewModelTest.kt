@@ -60,14 +60,7 @@ class BerlinClockViewModelTest {
         every { getBerlinClockDataUseCase() } returns flowOf(expectedClockState)
         berlinClockViewModel.onEvent(ClockEvent.StartAutomaticClock)
         val clockState = berlinClockViewModel.clockState.value
-        clockState.let {
-            assertThat(it.secondLamp).isEqualTo(secondLamp)
-            assertThat(it.topHourLamps).isEqualTo(topHourLamps)
-            assertThat(it.bottomHourLamps).isEqualTo(bottomHourLamps)
-            assertThat(it.topMinuteLamps).isEqualTo(topMinuteLamps)
-            assertThat(it.bottomMinuteLamps).isEqualTo(bottomMinuteLamps)
-            assertThat(it.normalTime).isEqualTo(normalTime)
-        }
+        verifyClockState(clockState)
     }
 
     @Test
@@ -75,14 +68,7 @@ class BerlinClockViewModelTest {
         every { getBerlinClockDataUseCase(any()) } returns expectedClockState
         berlinClockViewModel.onEvent(ClockEvent.UpdateClock(normalTime))
         val clockState = berlinClockViewModel.clockState.value
-        clockState.let {
-            assertThat(it.secondLamp).isEqualTo(secondLamp)
-            assertThat(it.topHourLamps).isEqualTo(topHourLamps)
-            assertThat(it.bottomHourLamps).isEqualTo(bottomHourLamps)
-            assertThat(it.topMinuteLamps).isEqualTo(topMinuteLamps)
-            assertThat(it.bottomMinuteLamps).isEqualTo(bottomMinuteLamps)
-            assertThat(it.normalTime).isEqualTo(normalTime)
-        }
+        verifyClockState(clockState)
     }
 
     @Test
@@ -90,6 +76,12 @@ class BerlinClockViewModelTest {
         every { getBerlinClockDataUseCase() } returns flowOf(expectedClockState)
         berlinClockViewModel.onEvent(ClockEvent.StartAutomaticClock)
         val clockState = berlinClockViewModel.clockState.value
+        verifyClockState(clockState)
+        berlinClockViewModel.onEvent(ClockEvent.StopAutomaticClock)
+        assertThat(berlinClockViewModel.clockState.value == ClockState()).isTrue()
+    }
+
+    private fun verifyClockState(clockState: ClockState) {
         clockState.let {
             assertThat(
                 it.secondLamp == secondLamp &&
@@ -99,8 +91,6 @@ class BerlinClockViewModelTest {
                         it.bottomMinuteLamps == bottomMinuteLamps &&
                         it.normalTime == normalTime
             ).isTrue()
-            berlinClockViewModel.onEvent(ClockEvent.StopAutomaticClock)
-            assertThat(berlinClockViewModel.clockState.value == ClockState()).isTrue()
         }
     }
 }
