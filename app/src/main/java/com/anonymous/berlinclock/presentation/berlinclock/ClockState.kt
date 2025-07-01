@@ -11,7 +11,7 @@ import com.anonymous.berlinclock.util.TopHourLamps
 import com.anonymous.berlinclock.util.TopMinuteLamps
 
 data class ClockState(
-    val secondLamp: SecondLamp = LampColour.OFF,
+    val secondLamp: SecondLamp = LampColour.YELLOW,
     val topHourLamps: TopHourLamps = List(HOUR_LAMP_COUNT) { LampColour.OFF },
     val bottomHourLamps: BottomHourLamps = List(HOUR_LAMP_COUNT) { LampColour.OFF },
     val topMinuteLamps: TopMinuteLamps = List(TOP_MINUTE_LAMP_COUNT) { LampColour.OFF },
