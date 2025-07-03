@@ -39,7 +39,7 @@ fun BerlinClockUI() {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun BerlinClockUIPreview() {
     BerlinClockTheme {
         BerlinClockUI()
     }
