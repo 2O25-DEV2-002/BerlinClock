@@ -5,11 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,12 +19,11 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.core.text.isDigitsOnly
 import com.anonymous.berlinclock.R
+import com.anonymous.berlinclock.util.HOUR_MAX_VALUE
 import com.anonymous.berlinclock.util.TIME_DELIMITER
-import com.anonymous.berlinclock.util.TIME_SELECTOR_INPUT_MAX_LENGTH
+import com.anonymous.berlinclock.util.TIME_MAX_VALUE
 import com.anonymous.berlinclock.util.TestTags
 
 @Composable
@@ -51,66 +47,29 @@ fun TimeSelector(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            OutlinedTextField(
+            TimeInputField(
                 value = selectedHour,
-                onValueChange = {
-                    if (it.isEmpty() || it.isDigitsOnly() && it.length <= TIME_SELECTOR_INPUT_MAX_LENGTH && it.toInt() in 0..23) {
-                        selectedHour = it
-                    }
-                },
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number
-                ),
-                placeholder = { Text(text = stringResource(id = R.string.hour)) },
-                singleLine = true,
-                modifier = Modifier
-                    .width(80.dp)
-                    .padding(2.dp)
-                    .semantics {
-                        contentDescription = TestTags.HOUR_SELECTOR
-                    }
+                onValueChange = { selectedHour = it },
+                placeholderRes = R.string.hour,
+                testTag = TestTags.HOUR_SELECTOR,
+                max = HOUR_MAX_VALUE
             )
             Spacer(modifier = Modifier.width(10.dp))
-            OutlinedTextField(
+            TimeInputField(
                 value = selectedMinute,
-                onValueChange = {
-                    if (it.isEmpty() || it.isDigitsOnly() && it.length <= TIME_SELECTOR_INPUT_MAX_LENGTH && it.toInt() in 0..59) {
-                        selectedMinute = it
-                    }
-                },
-                placeholder = { Text(text = stringResource(id = R.string.minute)) },
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number
-                ),
-                singleLine = true,
-                modifier = Modifier
-                    .width(80.dp)
-                    .padding(2.dp)
-                    .semantics {
-                        contentDescription = TestTags.MINUTE_SELECTOR
-                    }
+                onValueChange = { selectedMinute = it },
+                placeholderRes = R.string.minute,
+                testTag = TestTags.MINUTE_SELECTOR,
+                max = TIME_MAX_VALUE
             )
             Spacer(modifier = Modifier.width(10.dp))
-            OutlinedTextField(
+            TimeInputField(
                 value = selectedSecond,
-                onValueChange = {
-                    if (it.isEmpty() || it.isDigitsOnly() && it.length <= TIME_SELECTOR_INPUT_MAX_LENGTH && it.toInt() in 0..59) {
-                        selectedSecond = it
-                    }
-                },
-                placeholder = { Text(text = stringResource(id = R.string.second)) },
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number
-                ),
-                singleLine = true,
-                modifier = Modifier
-                    .width(80.dp)
-                    .padding(2.dp)
-                    .semantics {
-                        contentDescription = TestTags.SECOND_SELECTOR
-                    }
+                onValueChange = { selectedSecond = it },
+                placeholderRes = R.string.second,
+                testTag = TestTags.SECOND_SELECTOR,
+                max = TIME_MAX_VALUE
             )
-
         }
         Spacer(modifier = Modifier.height(12.dp))
         Button(
